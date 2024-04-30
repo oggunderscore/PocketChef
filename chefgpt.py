@@ -24,7 +24,7 @@ def wait_on_run(run, thread):
         time.sleep(0.5)
     return run
 
-assistant_id = "asst_tih3fUFVgz2doO2KqMzuzRP5"  # or a hard-coded ID like "asst-..."
+assistant_id = ""  # or a hard-coded ID like "asst-..."
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "<your OpenAI API key if not set as env var>"))
 # show_json(client)
@@ -45,15 +45,44 @@ def get_response(thread):
     return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
 
 def create_thread_and_run(user_input):
+    
     thread = client.beta.threads.create()
     run = submit_message(assistant_id, thread, user_input)
+    
     return thread, run
 
-while True:
-    userInput = input("")
-    thread, run = create_thread_and_run(userInput)
-    run = wait_on_run(run, thread)
-    pretty_print(get_response(thread))
+# while True:
+
+user_ingredients = ["ribeye steak", "potatoes", "corn", "salt", "pepper", "butter"]
+user_budget = "cheap"
+user_complexity = "any"
+user_cooking_time = "under 40 minutes"
+user_restrictions = "none"
+
+# Prompt Engineering - Modify this to produce the most consistent and reliable outputs
+prompt = f"Create a recipe with the following parameters:\n" \
+            f"Ingredients: {', '.join(user_ingredients)}\n" \
+            f"Budget: {user_budget}\n" \
+            f"Complexity: {user_complexity}\n" \
+            f"Cooking Time: {user_cooking_time}\n" \
+            f"Dietary Restrictions: {user_restrictions}\n" \
+            f"Please provide a recipe that is easy to follow and includes cooking instructions. Do not include a section with equipment."
+
+# Output in the following format: Receipt name, Instructions, Cooking Time: 
+
+print(f'Generating Recipe...')
+thread, run = create_thread_and_run(prompt)
+run = wait_on_run(run, thread)
+print(f'Done.')
+pretty_print(get_response(thread))
+
+    # User input example
+    # userInput = input("")
+    # thread, run = create_thread_and_run(userInput)
+    # print(f'Creating Recipe...')
+    # run = wait_on_run(run, thread)
+    # print(f'Done.')
+    # pretty_print(get_response(thread))
 
 # # Emulating concurrent user requests
 # thread1, run1 = create_thread_and_run(
