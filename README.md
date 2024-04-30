@@ -1,4 +1,4 @@
-# PocketChef - Senior Capstone Project by Kevin Nguyen
+# PocketChef - by Kevin Nguyen, Joshua Duncan, Noah Khayat Albirkdar
 A multi-platform application designed to generate simple and budget-friendly recipes based on user's preferences powered by Artificial Intelligence
 
 # Description
