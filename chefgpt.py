@@ -3,10 +3,15 @@ import os
 import json
 import time
 
+# Helper function
+def fetch_tokens():
+    with open('tokens.json', 'r') as file:
+        data = json.load(file)
+    return data
 
+# Helper function
 def show_json(obj):
     print(json.dumps(obj, indent=4))
-
 
 # Pretty printing helper
 def pretty_print(messages):
@@ -15,8 +20,42 @@ def pretty_print(messages):
         print(f"{m.role}: {m.content[0].text.value}")
     print()
 
+# Parse Response
+def parse_recipe(text):
+    response = ""
+    for m in text:
+        if m.role == 'assistant':
+            response += f"{m.content[0].text.value}"
+    return response
 
-# Waiting in a loop
+def recipe_to_json(recipe):
+    import re
+
+    # Find title
+    title_search = re.search(r'^### (.+)$', recipe, re.MULTILINE)
+    title = title_search.group(1) if title_search else "Unknown Recipe"
+
+    # Find ingredients
+    ingredients_search = re.search(r'#### Ingredients:\n(- .+?)(?=\n####|$)', recipe, re.DOTALL)
+    ingredients = ingredients_search.group(1).strip().split('\n') if ingredients_search else []
+
+    # Find instructions
+    instructions_search = re.search(r'#### Instructions:\n\n(.+)', recipe, re.DOTALL)
+    instructions = instructions_search.group(1).strip() if instructions_search else "No instructions provided"
+
+    # Format instructions better
+    instructions = instructions.replace('\n', ' ').replace('  ', ' ')
+
+    # Create JSON object
+    recipe_data = {
+        "title": title,
+        "ingredients": ingredients,
+        "instructions": instructions
+    }
+
+    return recipe_data
+
+# Waiting for Generation to complete
 def wait_on_run(run, thread):
     while run.status == "queued" or run.status == "in_progress":
         run = client.beta.threads.runs.retrieve(
@@ -26,18 +65,19 @@ def wait_on_run(run, thread):
         time.sleep(0.5)
     return run
 
-
-assistant_id = ""  # or a hard-coded ID like "asst-..."
-
 client = OpenAI(
     api_key=os.environ.get(
         "OPENAI_API_KEY", "<your OpenAI API key if not set as env var>"
     )
 )
+
+# TODO: This needs to be passed correctly and not be global?
+
+data = fetch_tokens()
+assistant_id = data['assistant_id']
+
 # show_json(client)
-
 # print(f'EnvironmentVar: {os.environ.get("OPENAI_API_KEY", "<your OpenAI API key if not set as env var>")}')
-
 
 def submit_message(assistant_id, thread, user_message):
     client.beta.threads.messages.create(
@@ -48,10 +88,8 @@ def submit_message(assistant_id, thread, user_message):
         assistant_id=assistant_id,
     )
 
-
 def get_response(thread):
     return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
-
 
 def create_thread_and_run(user_input):
 
@@ -71,6 +109,7 @@ def create_thread_and_run(user_input):
 # 4 = Slightly Expensive
 # 5 = Expensive
 
+
 user_ingredients = ["ribeye steak", "potatoes", "corn", "salt", "pepper", "butter"]
 user_budget = "Cheap"
 user_complexity = "Easy"
@@ -86,7 +125,9 @@ prompt = (
     f"Complexity: {user_complexity}\n"
     f"Cooking Time: {user_cooking_time}\n"
     f"Dietary Restrictions: {user_restrictions}\n"
-    f"Please provide a recipe that is easy to follow and includes cooking instructions. Do not include a section with equipment."
+    f"Please provide a recipe that is easy to follow and includes cooking instructions.\n"
+    f"Do not include a section with equipment.\n"
+    f"Include a Tips section but no final summary section at the end.\n"
 )
 
 # Output in the following format: Receipt name, Instructions, Cooking Time:
@@ -95,7 +136,10 @@ print(f"Generating Recipe...")
 thread, run = create_thread_and_run(prompt)
 run = wait_on_run(run, thread)
 print(f"Done.")
-pretty_print(get_response(thread))
+response = get_response(thread)
+# pretty_print(response)
+
+print(parse_recipe(response))
 
 # User input example
 # userInput = input("")

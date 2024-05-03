@@ -1,5 +1,6 @@
 node_modules/
 api_keys.txt
+tokens.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
