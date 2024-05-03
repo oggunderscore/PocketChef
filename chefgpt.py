@@ -2,6 +2,7 @@ from openai import OpenAI
 import os
 import json
 import time
+import re
 
 # Helper function
 def fetch_tokens():
@@ -28,29 +29,30 @@ def parse_recipe(text):
             response += f"{m.content[0].text.value}"
     return response
 
-def recipe_to_json(recipe):
-    import re
+def recipe_to_json(output):
 
-    # Find title
-    title_search = re.search(r'^### (.+)$', recipe, re.MULTILINE)
+    # Extracting the recipe title
+    title_search = re.search(r'^Recipe:\s+(.+?)$', output, re.MULTILINE)
     title = title_search.group(1) if title_search else "Unknown Recipe"
 
-    # Find ingredients
-    ingredients_search = re.search(r'#### Ingredients:\n(- .+?)(?=\n####|$)', recipe, re.DOTALL)
-    ingredients = ingredients_search.group(1).strip().split('\n') if ingredients_search else []
+    # Extracting ingredients
+    ingredients_search = re.search(r'Ingredients:\s+(.+?)(?=\*\*Instructions:\*\*)', output, re.DOTALL)
+    ingredients = [line.strip('- ').strip() for line in ingredients_search.group(1).strip().split('\n') if line.strip()] if ingredients_search else []
 
-    # Find instructions
-    instructions_search = re.search(r'#### Instructions:\n\n(.+)', recipe, re.DOTALL)
-    instructions = instructions_search.group(1).strip() if instructions_search else "No instructions provided"
+    # Extracting instructions
+    instructions_search = re.search(r'Instructions:\s+(.+?)(?=\*\*Tips:\*\*|$)', output, re.DOTALL)
+    instructions = instructions_search.group(1).strip().replace('\n', ' ').replace('  ', ' ') if instructions_search else "No instructions provided"
 
-    # Format instructions better
-    instructions = instructions.replace('\n', ' ').replace('  ', ' ')
+    # Extracting tips
+    tips_search = re.search(r'Tips:\s+(.+)$', output, re.DOTALL)
+    tips = [line.strip('- ').strip() for line in tips_search.group(1).strip().split('\n') if line.strip()] if tips_search else []
 
-    # Create JSON object
+    # Creating the JSON object
     recipe_data = {
         "title": title,
         "ingredients": ingredients,
-        "instructions": instructions
+        "instructions": instructions,
+        "tips": tips
     }
 
     return recipe_data
@@ -128,6 +130,7 @@ prompt = (
     f"Please provide a recipe that is easy to follow and includes cooking instructions.\n"
     f"Do not include a section with equipment.\n"
     f"Include a Tips section but no final summary section at the end.\n"
+    f"Do not prepend #'s or *'s before sections such as Recipe or Ingredients.\n"
 )
 
 # Output in the following format: Receipt name, Instructions, Cooking Time:
@@ -139,7 +142,11 @@ print(f"Done.")
 response = get_response(thread)
 # pretty_print(response)
 
-print(parse_recipe(response))
+# print(parse_recipe(response))
+
+json_response = recipe_to_json(parse_recipe(response))
+
+print(json_response)
 
 # User input example
 # userInput = input("")
