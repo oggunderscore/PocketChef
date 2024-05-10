@@ -1,0 +1,81 @@
+.app-container {
+    background-color: #FCF4E7;
+    height: 100vh;
+  }
+  
+  .app-bar {
+    background-color: #02151D;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .app-title {
+    margin: 0;
+  }
+  
+  .slider-container {
+    padding-top: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  
+  .app-container p {
+    color: #1A1C16;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .welcome {
+    text-align: center;
+    font-size: 60px;
+    margin-top: 10px;
+  }
+  
+  .pref {
+    text-align: center;
+    font-size: 40px;
+    margin-top: -60px;
+  }
+  
+  .question {
+    margin-bottom: -10px;
+  }
+  
+  .ingredient-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .ingredient-text {
+    color: blue;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .blue-box {
+    background-color: #C1D9DB;
+    border-radius: 20px;
+    padding: 10px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .add-button {
+    background-color: #12273B;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: inline-block;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-button:hover {
+    background-color: #408ed6;
+  }
+  
+  .add-ingredient {
+    color: white;
+  }
