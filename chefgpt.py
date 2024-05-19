@@ -60,17 +60,14 @@ def recipe_to_json(output):
 # Waiting for Generation to complete
 def wait_on_run(run, thread):
     while run.status == "queued" or run.status == "in_progress":
-        run = client.beta.threads.runs.retrieve(
-            thread_id=thread.id,
-            run_id=run.id,
-        )
+        run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
         time.sleep(0.5)
     return run
 
 client = OpenAI(
     api_key=os.environ.get(
         "OPENAI_API_KEY", "<your OpenAI API key if not set as env var>"
-    )
+    ), default_headers={"OpenAI-Beta": "assistants=v2"}
 )
 
 # TODO: This needs to be passed correctly and not be global?
@@ -82,13 +79,8 @@ assistant_id = data['assistant_id']
 # print(f'EnvironmentVar: {os.environ.get("OPENAI_API_KEY", "<your OpenAI API key if not set as env var>")}')
 
 def submit_message(assistant_id, thread, user_message):
-    client.beta.threads.messages.create(
-        thread_id=thread.id, role="user", content=user_message
-    )
-    return client.beta.threads.runs.create(
-        thread_id=thread.id,
-        assistant_id=assistant_id,
-    )
+    client.beta.threads.messages.create(thread_id=thread.id, role="user", content=user_message)
+    return client.beta.threads.runs.create_and_poll(thread_id=thread.id, assistant_id=assistant_id)
 
 def get_response(thread):
     return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
@@ -97,7 +89,6 @@ def create_thread_and_run(user_input):
 
     thread = client.beta.threads.create()
     run = submit_message(assistant_id, thread, user_input)
-
     return thread, run
 
 
@@ -127,10 +118,6 @@ prompt = (
     f"Complexity: {user_complexity}\n"
     f"Cooking Time: {user_cooking_time}\n"
     f"Dietary Restrictions: {user_restrictions}\n"
-    f"Please provide a recipe that is easy to follow and includes cooking instructions.\n"
-    f"Do not include a section with equipment.\n"
-    f"Include a Tips section but no final summary section at the end.\n"
-    f"Do not prepend #'s or *'s before sections such as Recipe or Ingredients.\n"
 )
 
 # Output in the following format: Receipt name, Instructions, Cooking Time:
@@ -138,7 +125,13 @@ prompt = (
 print(f"Generating Recipe...")
 thread, run = create_thread_and_run(prompt)
 run = wait_on_run(run, thread)
-print(f"Done.")
+
+print(f"Run1 Complete.")
+
+run2 = submit_message(assistant_id, thread, "What is your name? ")
+run2 = wait_on_run(run2, thread)
+
+print(f"Run2 Complete.")
 response = get_response(thread)
 # pretty_print(response)
 
