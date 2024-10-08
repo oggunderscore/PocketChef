@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import app from "./configuration"; // Firebase configuration
 import { getDatabase, ref, onValue } from "firebase/database";
+import RecipeGenerator from './RecipeGenerator';
+import Home from './components/Home/Home'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 // Firebase Authentication instance
@@ -71,6 +73,8 @@ function App() {
 
   return (
     <div>
+      <Home />
+      <RecipeGenerator />
       {user ? (
         <div>
           <h1>Welcome, {user.email}</h1>
