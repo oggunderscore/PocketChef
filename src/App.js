@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import app from "./configuration"; // Firebase configuration
 import { getDatabase, ref, onValue } from "firebase/database";
-import RecipeGenerator from './RecipeGenerator';
-import Home from './components/Home/Home'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import RecipeGenerator from "./RecipeGenerator";
+import Home from "./components/Home/Home";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoadingPage from "./components/Loading/LoadingPage.js"; // Import the LoadingPage component
+import Navbar from "./components/NavBar.js";
 
 // Firebase Authentication instance
 const auth = getAuth(app);
@@ -73,6 +82,16 @@ function App() {
 
   return (
     <div>
+      {/* Pasted Code */}
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/loadingpage" element={<LoadingPage />} />
+          <Route path="/recipegenerator" element={<RecipeGenerator />} />
+        </Routes>
+      </Router>
+
       <Home />
       <RecipeGenerator />
       {user ? (
@@ -103,7 +122,6 @@ function App() {
             />
             <button type="submit">Sign Up</button>
           </form>
-
 
           <h2>Sign In</h2>
           <form onSubmit={handleSignInSubmit}>
