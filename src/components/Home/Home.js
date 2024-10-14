@@ -17,7 +17,7 @@ function Home() {
 
       
 
-      <h2 className="welcome">Welcome!</h2>
+      <h2 className="welcome">Welcome to PocketChef!</h2>
       <h3 className="pref">Let's set your preferences.</h3>
 
       <p className="question">What's your budget?</p>
