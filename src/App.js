@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import app from "./configuration"; // Firebase configuration
 import { getDatabase, ref, onValue } from "firebase/database";
-import RecipeGenerator from './RecipeGenerator';
-import Home from './components/Home/Home'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import RecipeGenerator from "./RecipeGenerator";
+import Home from "./components/Home/Home";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 // Firebase Authentication instance
 const auth = getAuth(app);
@@ -103,7 +108,6 @@ function App() {
             />
             <button type="submit">Sign Up</button>
           </form>
-
 
           <h2>Sign In</h2>
           <form onSubmit={handleSignInSubmit}>
