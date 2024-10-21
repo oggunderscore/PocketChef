@@ -2,6 +2,7 @@ import React from "react";
 import { Slider } from '@mui/material';
 import './Home.css';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import InformationTooltip from "./Information_Tooltip";
 
 function Home() {
 
@@ -35,6 +36,11 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
+        <div>
+          <InformationTooltip tooltipText="Budget slider tool test " /> 
+
+        </div>
+
       </div>
 
       <p className="question">Cooking complexity?</p>
@@ -52,6 +58,10 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
+        <div>
+          <InformationTooltip tooltipText="complexity slider tool test " /> 
+
+        </div>
       </div>
 
       <p className="question">Time spent cooking?</p>
@@ -69,6 +79,10 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
+        <div>
+          <InformationTooltip tooltipText="time slider tool test " /> 
+
+        </div>
       </div>
 
       <div className="ingredient-container">

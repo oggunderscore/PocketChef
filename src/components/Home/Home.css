@@ -20,6 +20,32 @@
     padding-right: 100px;
   }
   
+  .information-tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .information-tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    left: 150px;
+    margin-left: -100px;
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+
+  .information-tooltip:hover .information-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  
   .app-container p {
     color: #1A1C16;
     font-weight: bold;
