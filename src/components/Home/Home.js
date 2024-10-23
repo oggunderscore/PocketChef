@@ -10,10 +10,6 @@ function Home() {
 
   return (
     <div className="app-container">
-      <div className="app-bar">
-        <h1 className="app-title">PocketChef</h1>
-      </div>
-
       <h2 className="welcome">Welcome!</h2>
       <h3 className="pref">Let's set your preferences.</h3>
 
