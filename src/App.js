@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import app from "./configuration"; // Firebase configuration
 import { getDatabase, ref, onValue } from "firebase/database";
-import RecipeGenerator from "./RecipeGenerator";
+import RecipeGenerator from "./components/Recipe/RecipeGenerator.js";
 import Home from "./components/Home/Home";
 import {
   getAuth,
