@@ -25,7 +25,7 @@ const titleStyle = {
   position: "absolute",
   left: "50%",
   transform: "translateX(-50%)",
-  fontSize: "2rem",
+  fontSize: "2.25rem",
   fontWeight: "bold",
 };
 
@@ -103,7 +103,7 @@ const SideMenu = () => {
         <div
           style={{
             width: 250,
-            paddingTop: "20px",
+            paddingTop: "10px",
             paddingLeft: "10px",
             backgroundColor: "#02151D",
             height: "100%", // Ensures it covers the full height
@@ -111,7 +111,7 @@ const SideMenu = () => {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <List>
+          <List dense>
             {/* Applying bold typography using primaryTypographyProps */}
             <ListItem button component={Link} to="/">
               <ListItemText
