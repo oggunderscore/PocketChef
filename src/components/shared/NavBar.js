@@ -22,8 +22,8 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate("/loadingpage")}>
             Loading Page
           </Button>
-          <Button color="inherit" onClick={() => navigate("/recipegenerator")}>
-            Recipe Generator
+          <Button color="inherit" onClick={() => navigate("/login")}>
+            Login
           </Button>
         </Toolbar>
       </AppBar>
