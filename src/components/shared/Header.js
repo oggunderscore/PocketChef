@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Drawer,
   List,
@@ -6,9 +6,11 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
 const appBarStyle = {
   backgroundColor: "#02151D",
@@ -41,6 +43,17 @@ const drawerStyle = {
 
 const SideMenu = () => {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  useEffect(() => {
+    // Listen to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -50,6 +63,20 @@ const SideMenu = () => {
       return;
     }
     setOpen(open);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("User signed out");
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
+
+  const handleLoginClick = () => {
+    navigate("/login");
   };
 
   return (
@@ -118,18 +145,43 @@ const SideMenu = () => {
             </ListItem>
           </List>
           <div style={{ position: "absolute", bottom: "20px", left: "30px" }}>
-            <IconButton edge="start" color="inherit" aria-label="logout">
-              <LogoutIcon sx={{ fontSize: 28, color: "white" }} />
-              <span
-                style={{
-                  marginLeft: "8px",
-                  color: "white",
-                  fontWeight: "bold",
-                }}
+            {user ? (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="logout"
+                onClick={handleLogout}
               >
-                Logout
-              </span>
-            </IconButton>
+                <LogoutIcon sx={{ fontSize: 28, color: "white" }} />
+                <span
+                  style={{
+                    marginLeft: "8px",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Logout
+                </span>
+              </IconButton>
+            ) : (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="login"
+                onClick={handleLoginClick}
+              >
+                <LoginIcon sx={{ fontSize: 28, color: "white" }} />
+                <span
+                  style={{
+                    marginLeft: "8px",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Login
+                </span>
+              </IconButton>
+            )}
           </div>
         </div>
       </Drawer>

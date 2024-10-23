@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Navbar />
+        {/* <Navbar /> */}
         <SideMenu /> {/* Include the SideMenu component here */}
         <Routes>
           <Route path="/" element={<Home />} />
