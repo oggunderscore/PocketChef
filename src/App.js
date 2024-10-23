@@ -11,8 +11,8 @@ import {
 } from "firebase/auth";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoadingPage from "./components/Loading/LoadingPage.js"; // Import the LoadingPage component
-import Navbar from "./components/NavBar.js";
+import LoadingPage from "./components/shared/LoadingPage.js"; // Import the LoadingPage component
+import Navbar from "./components/shared/NavBar.js";
 
 // Firebase Authentication instance
 const auth = getAuth(app);
