@@ -1,0 +1,33 @@
+/* src/components/Settings/Settings.css */
+
+.settings-container {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.settings-section {
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.settings-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.settings-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.settings-list li:hover {
+  background-color: #f7f7f7;
+}
