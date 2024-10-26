@@ -8,7 +8,7 @@
 }
 
 .slider-container {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-left: 100px;
   padding-right: 100px;
 }
@@ -21,18 +21,20 @@
 
 .welcome {
   text-align: center;
-  font-size: 60px;
-  margin-top: 10px;
+  font-size: 40px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .pref {
   text-align: center;
-  font-size: 40px;
-  margin-top: -60px;
+  font-size: 30px;
+  margin-top: 0px;
 }
 
 .question {
-  margin-bottom: -10px;
+  font-size: larger; /* TODO: Is using Larger a good notation? */
+  margin-bottom: 0px;
 }
 
 .ingredient-container {

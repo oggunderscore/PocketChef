@@ -2,7 +2,10 @@ import React from "react";
 import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoadingPage from "./components/shared/LoadingPage.js"; // Import the LoadingPage component
-import Navbar from "./components/shared/NavBar.js";
+import Favorites from "./components/Favorites/Favorites.js";
+import History from "./components/History/History.js";
+import Preferences from "./components/Preferences/Preferences.js";
+import Settings from "./components/Settings/Settings.js";
 import Auth from "./components/shared/Auth";
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
 
@@ -15,6 +18,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/loadingpage" element={<LoadingPage />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/login" element={<Auth />} />
           {/* Add more routes here if needed */}
         </Routes>
