@@ -1,0 +1,39 @@
+/* src/components/Preferences/Preferences.css */
+
+.preferences-container {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.preferences-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.preference-item {
+  padding: 5px 10px;
+  margin: 5px;
+  background-color: #eef;
+  border-radius: 5px;
+}
+
+.add-button,
+.clear-button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  margin: 10px 5px 0 0;
+}

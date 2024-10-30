@@ -1,107 +1,102 @@
 .app-container {
-    background-color: #FCF4E7;
-    height: 150vh;
-  }
-  
-  .app-bar {
-    background-color: #02151D;
-    color: white;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .app-title {
-    margin: 0;
-  }
-  
-  .slider-container {
-    padding-top: 20px;
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  
-  .information-tooltip {
-    position: relative;
-    display: inline-block;
-  }
+  background-color: #fcf4e7;
+  height: 150vh;
+}
 
-  .information-tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-    left: 150px;
-    margin-left: -100px;
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
+.app-title {
+  margin: 0;
+}
 
-  .information-tooltip:hover .information-tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  .app-container p {
-    color: #1A1C16;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .welcome {
-    text-align: center;
-    font-size: 60px;
-    margin-top: 10px;
-  }
-  
-  .pref {
-    text-align: center;
-    font-size: 40px;
-    margin-top: -60px;
-  }
-  
-  .question {
-    margin-bottom: -10px;
-  }
-  
-  .ingredient-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .ingredient-text {
-    color: blue;
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .blue-box {
-    background-color: #C1D9DB;
-    border-radius: 20px;
-    padding: 10px;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .add-button {
-    background-color: #12273B;
-    border-radius: 15px;
-    padding: 5px 10px;
-    display: inline-block;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .add-button:hover {
-    background-color: #408ed6;
-  }
-  
-  .add-ingredient {
-    color: white;
-  }
+.slider-container {
+  padding-top: 10px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.app-container p {
+  color: #1a1c16;
+  font-weight: bold;
+  text-align: center;
+}
+
+.welcome {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.pref {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 0px;
+}
+
+.information-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.information-tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  left: 150px;
+  margin-left: -100px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.information-tooltip:hover .information-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.question {
+  font-size: larger; /* TODO: Is using Larger a good notation? */
+  margin-bottom: 0px;
+}
+
+.ingredient-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.ingredient-text {
+  color: blue;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.blue-box {
+  background-color: #c1d9db;
+  border-radius: 20px;
+  padding: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.add-button {
+  background-color: #12273b;
+  border-radius: 15px;
+  padding: 5px 10px;
+  display: inline-block;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-button:hover {
+  background-color: #408ed6;
+}
+
+.add-ingredient {
+  color: white;
+}

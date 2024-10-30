@@ -1,0 +1,48 @@
+/* src/components/Home/Home.css */
+
+.home-container {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.slider-container label {
+  display: block;
+  margin: 10px 0;
+}
+
+.ingredients-container {
+  margin-top: 20px;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ingredient-item {
+  padding: 5px 10px;
+  margin: 5px;
+  background-color: #eef;
+  border-radius: 5px;
+}
+
+.add-button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.generate-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
