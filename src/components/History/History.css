@@ -1,0 +1,38 @@
+/* src/components/History/History.css */
+
+.history-container {
+  padding: 20px;
+  background-color: #fff;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.history-item:hover {
+  background-color: #f7f7f7;
+}
+
+.history-date {
+  color: #999;
+  font-size: 14px;
+}
+
+.history-name {
+  font-weight: bold;
+}
