@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import app from "../../configuration"; // Firebase configuration
+import app from "./configuration"; // Firebase configuration
+import RecipeGenerator from "./gpt";
 import { getDatabase, ref, onValue } from "firebase/database";
 import {
   getAuth,
@@ -76,6 +77,7 @@ const Auth = () => {
 
   return (
     <div>
+      <RecipeGenerator />
       {user ? (
         <div>
           <h1>Welcome, {user.email}</h1>
