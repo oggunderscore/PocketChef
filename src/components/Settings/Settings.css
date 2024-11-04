@@ -2,19 +2,23 @@
 
 .settings-container {
   padding: 20px;
+  background-color: #fcf4e7;
+  height: 150vh;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 36px;
   margin-bottom: 15px;
 }
 
 .settings-section {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 24px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 .settings-list {
@@ -29,5 +33,5 @@ h3 {
 }
 
 .settings-list li:hover {
-  background-color: #f7f7f7;
+  background-color: #fcf4e7;
 }

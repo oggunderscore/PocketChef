@@ -2,13 +2,8 @@
 
 .history-container {
   padding: 20px;
-  background-color: #fff;
-}
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #333;
+  background-color: #fcf4e7;
+  height: 150vh;
 }
 
 .history-list {
@@ -25,11 +20,11 @@ h2 {
 }
 
 .history-item:hover {
-  background-color: #f7f7f7;
+  background-color: #fcf4e7;
 }
 
 .history-date {
-  color: #999;
+  color: #000;
   font-size: 14px;
 }
 

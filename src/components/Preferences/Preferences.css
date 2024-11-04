@@ -1,39 +1,116 @@
-/* src/components/Preferences/Preferences.css */
-
 .preferences-container {
+  background-color: #fcf4e7;
+  height: 150vh;
   padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #212121; /* Dark text color */
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 .section {
-  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-h3 {
-  font-size: 20px;
+.section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 0.9rem;
+  color: #777; /* Subdued gray for example text */
+  margin-top: -10px;
 }
 
 .preferences-list {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background-color: #c3dbdb; /* Light blue background */
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 .preference-item {
-  padding: 5px 10px;
-  margin: 5px;
-  background-color: #eef;
-  border-radius: 5px;
+  background-color: #203045; /* Dark blue background */
+  color: #ffffff; /* White text color */
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ffffff; /* White color for the close icon */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.add-item {
+  background-color: #203045; /* Dark blue background */
+  color: #ffffff; /* White text color */
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
 }
 
 .add-button,
-.clear-button {
+.add-button:hover {
   background: none;
   border: none;
-  color: blue;
+  font-size: 0.9rem;
+  color: #ffffff; /* White color for the close icon */
   cursor: pointer;
-  margin: 10px 5px 0 0;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  gap: 5px;
+}
+
+.add-input {
+  width: 50px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #203045;
+  font-size: 0.9rem;
+  background-color: #203045;
+  color: #ffffff;
+  outline: none;
+  transition: width 0.3s ease;
+}
+
+.clear-button {
+  background-color: #203045;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.clear-button {
+  background: none;
+  color: #212121; /* Darker color for "Clear All" */
+  text-decoration: underline;
+  margin-top: 15px;
 }

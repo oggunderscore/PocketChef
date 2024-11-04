@@ -2,13 +2,8 @@
 
 .favorites-container {
   padding: 20px;
-  background-color: #fff;
-}
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #333;
+  background-color: #fcf4e7;
+  height: 150vh;
 }
 
 .favorites-list {
@@ -23,7 +18,7 @@ h2 {
 }
 
 .favorites-item:hover {
-  background-color: #f7f7f7;
+  background-color: #fcf4e7;
 }
 
 .favorites-name {

@@ -1,10 +1,17 @@
 .app-container {
   background-color: #fcf4e7;
   height: 150vh;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #212121; /* Dark text color */
 }
 
-.app-title {
-  margin: 0;
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 .slider-container {
@@ -32,71 +39,93 @@
   margin-top: 0px;
 }
 
-.information-tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.information-tooltip-text {
-  visibility: hidden;
-  width: 200px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1;
-  left: 150px;
-  margin-left: -100px;
-  opacity: 1;
-  transition: opacity 0.5s;
-}
-
-.information-tooltip:hover .information-tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
-.question {
-  font-size: larger; /* TODO: Is using Larger a good notation? */
-  margin-bottom: 0px;
-}
-
 .ingredient-container {
   text-align: center;
   margin-top: 20px;
 }
 
 .ingredient-text {
-  color: blue;
-  font-size: 24px;
+  color: #212121;
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
-.blue-box {
-  background-color: #c1d9db;
-  border-radius: 20px;
-  padding: 10px;
-  display: inline-block;
-  cursor: pointer;
+.ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background-color: #c3dbdb; /* Light blue background */
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
-.add-button {
-  background-color: #12273b;
-  border-radius: 15px;
-  padding: 5px 10px;
-  display: inline-block;
+.ingredient-item {
+  background-color: #203045; /* Dark blue background */
+  color: #ffffff; /* White text color */
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ffffff; /* White color for the close icon */
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding: 0;
+  margin-left: 5px;
+  font-size: 0.8rem;
 }
 
-.add-button:hover {
-  background-color: #408ed6;
+.add-item {
+  background-color: #203045; /* Dark blue background */
+  color: #ffffff; /* White text color */
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  gap: 5px;
 }
 
-.add-ingredient {
-  color: white;
+.add-input {
+  width: 50px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #203045;
+  font-size: 0.9rem;
+  background-color: #203045;
+  color: #ffffff;
+  outline: none;
+  transition: width 0.3s ease;
+}
+
+.add-item:hover,
+.blue-box:hover {
+  background-color: #203045;
+}
+
+.clear-button {
+  background-color: #203045;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 15px;
+}
+
+.clear-button:hover {
+  background: none;
+  color: #212121; /* Darker color for "Clear All" */
+  text-decoration: underline;
 }

@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Slider } from "@mui/material";
-import "./Home.css";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddIcon from "@mui/icons-material/AddCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import InformationTooltip from "./Information_Tooltip";
+import "./Home.css";
 
 function Home() {
+  const [ingredients, setIngredients] = useState([
+    "Cheese",
+    "Bread",
+    "Milk",
+    "Eggs",
+    "Tomato",
+    "Butter",
+  ]);
+
+  const [isAddingIngredient, setIsAddingIngredient] = useState(false);
+  const [newIngredient, setNewIngredient] = useState("");
+
   const handleAddIngredient = () => {
-    console.log("Adding ingredient...");
+    if (newIngredient.trim() !== "") {
+      setIngredients((prev) => [...prev, newIngredient]);
+      setNewIngredient("");
+    }
+  };
+
+  const handleIngredientKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddIngredient();
+      setIsAddingIngredient(false);
+    } else if (e.key === "Escape") {
+      setIsAddingIngredient(false);
+    }
+  };
+
+  const handleIngredientChange = (e) => {
+    setNewIngredient(e.target.value);
+    e.target.style.width = `${e.target.value.length + 1}ch`; // Adjust width based on content
+  };
+
+  const handleRemoveIngredient = (ingredient) => {
+    setIngredients((prev) => prev.filter((item) => item !== ingredient));
   };
 
   return (
@@ -29,11 +63,7 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
-        <div>
-          <InformationTooltip tooltipText="Budget slider tool test " /> 
-
-        </div>
-
+        <InformationTooltip tooltipText="Budget slider tool test " />
       </div>
 
       <p className="question">Cooking complexity?</p>
@@ -51,10 +81,7 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
-        <div>
-          <InformationTooltip tooltipText="complexity slider tool test " /> 
-
-        </div>
+        <InformationTooltip tooltipText="Complexity slider tool test " />
       </div>
 
       <p className="question">Time spent cooking?</p>
@@ -72,20 +99,42 @@ function Home() {
           max={1}
           valueLabelDisplay="auto"
         />
-        <div>
-          <InformationTooltip tooltipText="time slider tool test " /> 
-
-        </div>
+        <InformationTooltip tooltipText="Time slider tool test " />
       </div>
 
       <div className="ingredient-container">
         <p className="ingredient-text">Ingredients:</p>
-        <div className="add-ingredient" onClick={handleAddIngredient}>
-          <div className="blue-box">
-            <div className="add-button">
-              Click to Add <AddCircleIcon />
+        <div className="ingredients-list">
+          {ingredients.map((ingredient, index) => (
+            <span key={index} className="ingredient-item">
+              {ingredient}
+              <button
+                className="close-button"
+                onClick={() => handleRemoveIngredient(ingredient)}
+              >
+                <CancelIcon fontSize="small" />
+              </button>
+            </span>
+          ))}
+
+          {isAddingIngredient ? (
+            <input
+              type="text"
+              className="add-input"
+              value={newIngredient}
+              onChange={handleIngredientChange}
+              onKeyDown={handleIngredientKeyPress}
+              onBlur={() => setIsAddingIngredient(false)}
+              autoFocus
+            />
+          ) : (
+            <div
+              className="add-item"
+              onClick={() => setIsAddingIngredient(true)}
+            >
+              Click to Add <AddIcon fontSize="small" />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
