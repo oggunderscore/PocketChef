@@ -40,6 +40,9 @@ h2 {
   padding: 15px;
   border-radius: 10px;
   margin-top: 10px;
+  min-width: 300px;
+  max-width: 70%;
+  margin: auto;
 }
 
 .preference-item {

@@ -59,7 +59,9 @@ h2 {
   background-color: #c3dbdb; /* Light blue background */
   padding: 15px;
   border-radius: 10px;
-  margin-top: 10px;
+  min-width: 300px;
+  max-width: 70%;
+  margin: auto;
 }
 
 .ingredient-item {
