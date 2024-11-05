@@ -43,6 +43,29 @@ function Home() {
     setIngredients((prev) => prev.filter((item) => item !== ingredient));
   };
 
+  const handleClearIngredients = () => {
+    setIngredients([]);
+  };
+
+  const sliderStyles = {
+    height: 8,
+    "& .MuiSlider-thumb": {
+      width: 20,
+      height: 20,
+      backgroundColor: "#12263E", // Dark blue for the thumb
+    },
+    "& .MuiSlider-track": {
+      backgroundColor: "#12263E", // Dark blue for the track
+      border: 0,
+    },
+    "& .MuiSlider-rail": {
+      backgroundColor: "#C3DBDB", // Light blue for the rail
+    },
+    "& .MuiSlider-mark": {
+      display: "none", // Hides the mark dots
+    },
+  };
+
   return (
     <div className="app-container">
       <h2 className="welcome">Welcome!</h2>
@@ -51,7 +74,7 @@ function Home() {
       <p className="question">What's your budget?</p>
       <div className="slider-container">
         <Slider
-          aria-label="Small steps"
+          aria-label="Budget Factor"
           defaultValue={0.5}
           step={0.1}
           marks={[
@@ -62,6 +85,7 @@ function Home() {
           min={0}
           max={1}
           valueLabelDisplay="auto"
+          sx={sliderStyles}
         />
         <InformationTooltip tooltipText="Budget slider tool test " />
       </div>
@@ -69,7 +93,7 @@ function Home() {
       <p className="question">Cooking complexity?</p>
       <div className="slider-container">
         <Slider
-          aria-label="Small steps"
+          aria-label="Cooking Complexity Factor"
           defaultValue={0.5}
           step={0.1}
           marks={[
@@ -80,6 +104,7 @@ function Home() {
           min={0}
           max={1}
           valueLabelDisplay="auto"
+          sx={sliderStyles}
         />
         <InformationTooltip tooltipText="Complexity slider tool test " />
       </div>
@@ -87,7 +112,7 @@ function Home() {
       <p className="question">Time spent cooking?</p>
       <div className="slider-container">
         <Slider
-          aria-label="Small steps"
+          aria-label="Cooking Time"
           defaultValue={0.5}
           step={0.1}
           marks={[
@@ -98,6 +123,7 @@ function Home() {
           min={0}
           max={1}
           valueLabelDisplay="auto"
+          sx={sliderStyles}
         />
         <InformationTooltip tooltipText="Time slider tool test " />
       </div>
@@ -136,6 +162,9 @@ function Home() {
             </div>
           )}
         </div>
+        <button className="clear-button" onClick={handleClearIngredients}>
+          Clear All
+        </button>
       </div>
     </div>
   );

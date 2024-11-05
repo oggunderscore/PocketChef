@@ -14,10 +14,15 @@ h2 {
   margin-bottom: 20px;
 }
 
+.question {
+  margin-bottom: 0px;
+}
+
 .slider-container {
   padding-top: 10px;
-  padding-left: 100px;
-  padding-right: 100px;
+  min-width: 300px;
+  max-width: 80%;
+  margin: auto;
 }
 
 .app-container p {
@@ -60,7 +65,7 @@ h2 {
   padding: 15px;
   border-radius: 10px;
   min-width: 300px;
-  max-width: 70%;
+  max-width: 80%;
   margin: auto;
 }
 
@@ -116,8 +121,8 @@ h2 {
 }
 
 .clear-button {
-  background-color: #203045;
-  color: #ffffff;
+  background-color: #fcf4e7;
+  color: #000;
   border: none;
   border-radius: 20px;
   padding: 5px 12px;
