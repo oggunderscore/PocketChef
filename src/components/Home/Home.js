@@ -49,7 +49,7 @@ function Home() {
   return (
     <div className="app-container">
       <h2 className="welcome">Welcome!</h2>
-      <h3 className="pref">Let's set your preferences.</h3>
+      <h3 className="pref">Let's start cooking.</h3>
       <Question
         defaultValue={3}
         label="What's your budget?"
