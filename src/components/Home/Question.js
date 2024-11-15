@@ -39,20 +39,16 @@ const questionTextStyle = {
 
 const sliderContainerStyle = {
   paddingTop: "10px",
-  minWidth: "300px",
+  minWidth: "250px",
   maxWidth: "80%",
   margin: "auto",
 };
-
-function Question({ defaultValue, label, tooltipText }) {
+function Question({ defaultValue, label, tooltipText, onChange }) {
   const [sliderValue, setSliderValue] = useState(defaultValue);
 
   const handleSliderChange = (event, value) => {
-    setSliderValue(value); // Update value as the user drags
-  };
-
-  const handleSliderChangeCommitted = (event, value) => {
-    setSliderValue(Math.round(value)); // Snap to the nearest whole number when drag ends
+    setSliderValue(value);
+    onChange(Math.round(value)); // Update parent with rounded value
   };
 
   return (
@@ -77,7 +73,6 @@ function Question({ defaultValue, label, tooltipText }) {
         valueLabelDisplay="off"
         sx={sliderStyles}
         onChange={handleSliderChange}
-        onChangeCommitted={handleSliderChangeCommitted} // Snap to whole number on release
       />
     </div>
   );

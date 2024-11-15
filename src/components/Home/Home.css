@@ -51,9 +51,9 @@ h2 {
   gap: 10px;
   justify-content: center;
   background-color: #c3dbdb; /* Light blue background */
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
-  min-width: 300px;
+  min-width: 250px;
   max-width: 80%;
   margin: auto;
 }
@@ -126,17 +126,52 @@ h2 {
   text-decoration: underline;
 }
 
-.question {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0px;
+.generate-button {
+  background-color: #12263e; /* Dark blue */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 80%;
+  max-width: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
-.question-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px; /* Space between text and icon */
+.generate-button:hover {
+  background-color: #0f1d2e; /* Slightly darker blue on hover */
+}
+
+.content-container {
+  width: 80%;
+  max-width: 800px; /* Optional: to set a max width */
+  margin: 0 auto;
+}
+
+.special-requests-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.special-requests-label {
   font-weight: bold;
   color: #1a1c16;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.special-requests-input {
+  width: 80%;
+  max-width: 300px;
+  padding: 8px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  border-radius: 5px;
+  font-size: 1rem;
 }
