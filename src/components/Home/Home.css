@@ -54,7 +54,7 @@ h2 {
   padding: 10px;
   border-radius: 10px;
   min-width: 250px;
-  max-width: 80%;
+  max-width: 500px;
   margin: auto;
 }
 
@@ -149,8 +149,8 @@ h2 {
 }
 
 .content-container {
-  width: 80%;
-  max-width: 800px; /* Optional: to set a max width */
+  width: 85%;
+  max-width: 500px; /* Optional: to set a max width */
   margin: 0 auto;
 }
 

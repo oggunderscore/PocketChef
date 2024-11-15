@@ -40,7 +40,7 @@ const questionTextStyle = {
 const sliderContainerStyle = {
   paddingTop: "10px",
   minWidth: "250px",
-  maxWidth: "80%",
+  maxWidth: "500px",
   margin: "auto",
 };
 function Question({ defaultValue, label, tooltipText, onChange }) {
