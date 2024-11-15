@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Slider } from "@mui/material";
 import AddIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import InformationTooltip from "./Information_Tooltip";
+import Question from "./Question";
 import "./Home.css";
 
 function Home() {
@@ -47,86 +46,25 @@ function Home() {
     setIngredients([]);
   };
 
-  const sliderStyles = {
-    height: 8,
-    "& .MuiSlider-thumb": {
-      width: 20,
-      height: 20,
-      backgroundColor: "#12263E", // Dark blue for the thumb
-    },
-    "& .MuiSlider-track": {
-      backgroundColor: "#12263E", // Dark blue for the track
-      border: 0,
-    },
-    "& .MuiSlider-rail": {
-      backgroundColor: "#C3DBDB", // Light blue for the rail
-    },
-    "& .MuiSlider-mark": {
-      display: "none", // Hides the mark dots
-    },
-  };
-
   return (
     <div className="app-container">
       <h2 className="welcome">Welcome!</h2>
       <h3 className="pref">Let's set your preferences.</h3>
-
-      <p className="question">What's your budget?</p>
-      <div className="slider-container">
-        <Slider
-          aria-label="Budget Factor"
-          defaultValue={0.5}
-          step={0.1}
-          marks={[
-            { value: 0, label: "Low" },
-            { value: 0.5 },
-            { value: 1, label: "High" },
-          ]}
-          min={0}
-          max={1}
-          valueLabelDisplay="auto"
-          sx={sliderStyles}
-        />
-        <InformationTooltip tooltipText="Budget slider tool test " />
-      </div>
-
-      <p className="question">Cooking complexity?</p>
-      <div className="slider-container">
-        <Slider
-          aria-label="Cooking Complexity Factor"
-          defaultValue={0.5}
-          step={0.1}
-          marks={[
-            { value: 0, label: "Low" },
-            { value: 0.5 },
-            { value: 1, label: "High" },
-          ]}
-          min={0}
-          max={1}
-          valueLabelDisplay="auto"
-          sx={sliderStyles}
-        />
-        <InformationTooltip tooltipText="Complexity slider tool test " />
-      </div>
-
-      <p className="question">Time spent cooking?</p>
-      <div className="slider-container">
-        <Slider
-          aria-label="Cooking Time"
-          defaultValue={0.5}
-          step={0.1}
-          marks={[
-            { value: 0, label: "Low" },
-            { value: 0.5 },
-            { value: 1, label: "High" },
-          ]}
-          min={0}
-          max={1}
-          valueLabelDisplay="auto"
-          sx={sliderStyles}
-        />
-        <InformationTooltip tooltipText="Time slider tool test " />
-      </div>
+      <Question
+        defaultValue={3}
+        label="What's your budget?"
+        tooltipText="Budget Question Tooltip"
+      />
+      <Question
+        defaultValue={3}
+        label="Cooking complexity?"
+        tooltipText="Complexity Question Tooltip"
+      />
+      <Question
+        defaultValue={3}
+        label="Time spent cooking?"
+        tooltipText="Time Question Tooltip"
+      />
 
       <div className="ingredient-container">
         <p className="ingredient-text">Ingredients:</p>

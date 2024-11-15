@@ -14,17 +14,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-.question {
-  margin-bottom: 0px;
-}
-
-.slider-container {
-  padding-top: 10px;
-  min-width: 300px;
-  max-width: 80%;
-  margin: auto;
-}
-
 .app-container p {
   color: #1a1c16;
   font-weight: bold;
@@ -135,4 +124,19 @@ h2 {
   background: none;
   color: #212121; /* Darker color for "Clear All" */
   text-decoration: underline;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+.question-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Space between text and icon */
+  font-weight: bold;
+  color: #1a1c16;
 }
