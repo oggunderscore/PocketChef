@@ -47,8 +47,13 @@ function Question({ defaultValue, label, tooltipText, onChange }) {
   const [sliderValue, setSliderValue] = useState(defaultValue);
 
   const handleSliderChange = (event, value) => {
-    setSliderValue(value);
-    onChange(Math.round(value)); // Update parent with rounded value
+    setSliderValue(value); // Update the slider value smoothly while dragging
+  };
+
+  const handleSliderChangeCommitted = (event, value) => {
+    const roundedValue = Math.round(value); // Snap to the nearest whole number
+    setSliderValue(roundedValue); // Update local state
+    onChange(roundedValue); // Notify the parent component of the snapped value
   };
 
   return (
@@ -64,15 +69,16 @@ function Question({ defaultValue, label, tooltipText, onChange }) {
         value={sliderValue}
         min={1}
         max={5}
-        step={0.05} // Smaller step for smooth dragging
+        step={0.05} // Smooth movement during dragging
         marks={[
           { value: 1, label: "Low" },
-          { value: 3 },
+          { value: 3, label: "Medium" },
           { value: 5, label: "High" },
         ]}
         valueLabelDisplay="off"
         sx={sliderStyles}
-        onChange={handleSliderChange}
+        onChange={handleSliderChange} // Update smoothly while dragging
+        onChangeCommitted={handleSliderChangeCommitted} // Snap when the drag ends
       />
     </div>
   );
