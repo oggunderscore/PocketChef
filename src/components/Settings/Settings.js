@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./Settings.css";
+import UpdateUsername from "./UpdateUsername";
 
 const Settings = () => {
   return (
@@ -10,7 +11,9 @@ const Settings = () => {
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
-          <li>Username</li>
+          <li>
+            <UpdateUsername />
+          </li>
           <li>Update Email</li>
           <li>Update Password</li>
           <li>Delete Data</li>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import app from "./configuration"; // Firebase configuration
-import RecipeGenerator from "./gpt";
+import app from "../../configuration"; // Firebase configuration
 import { getDatabase, ref, onValue } from "firebase/database";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
+import "./Auth.css"; // Add new styles for minimalistic design
 
 // Firebase Authentication instance
 const auth = getAuth(app);
@@ -28,6 +29,15 @@ const handleSignIn = (email, password) => {
       console.log("User signed in:", userCredential.user);
     })
     .catch((error) => console.error("Error signing in:", error));
+};
+
+// Function to handle user sign-out
+const handleSignOut = () => {
+  signOut(auth)
+    .then(() => {
+      console.log("User signed out");
+    })
+    .catch((error) => console.error("Error signing out:", error));
 };
 
 const Auth = () => {
@@ -76,11 +86,13 @@ const Auth = () => {
   };
 
   return (
-    <div>
-      <RecipeGenerator />
+    <div className="auth-container">
       {user ? (
-        <div>
+        <div className="auth-content">
           <h1>Welcome, {user.email}</h1>
+          <button className="auth-button" onClick={handleSignOut}>
+            Sign Out
+          </button>
           <h2>Data from database:</h2>
           <ul>
             {data.map((item, index) => (
@@ -89,40 +101,52 @@ const Auth = () => {
           </ul>
         </div>
       ) : (
-        <div>
-          <h2>Sign Up</h2>
-          <form onSubmit={handleSignUpSubmit}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Sign Up</button>
-          </form>
+        <div className="auth-content">
+          <div className="auth-card">
+            <h2>Sign Up</h2>
+            <form onSubmit={handleSignUpSubmit} className="auth-form">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="auth-input"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="auth-input"
+              />
+              <button type="submit" className="auth-button">
+                Sign Up
+              </button>
+            </form>
+          </div>
 
-          <h2>Sign In</h2>
-          <form onSubmit={handleSignInSubmit}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Sign In</button>
-          </form>
+          <div className="auth-card">
+            <h2>Sign In</h2>
+            <form onSubmit={handleSignInSubmit} className="auth-form">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="auth-input"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="auth-input"
+              />
+              <button type="submit" className="auth-button">
+                Sign In
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

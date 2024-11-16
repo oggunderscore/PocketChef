@@ -1,13 +1,21 @@
-import React from 'react';
-import InfoIcon from '@mui/icons-material/Info';
+// InformationTooltip.js
+import React from "react";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
+import Fade from "@mui/material/Fade";
 
-const InformationTooltip = ({ tooltipText}) => {
-    return (
-        <div className="information-tooltip">
-            <InfoIcon/>
-            <span className="information-tooltip-text">{tooltipText}</span>
-        </div>
-    );
-};
+function InformationTooltip({ tooltipText }) {
+  return (
+    <Tooltip
+      title={tooltipText}
+      placement="right"
+      TransitionComponent={Fade}
+      TransitionProps={{ timeout: 600 }}
+      arrow
+    >
+      <InfoIcon style={{ color: "#12263E", cursor: "pointer" }} />
+    </Tooltip>
+  );
+}
 
 export default InformationTooltip;
