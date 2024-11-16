@@ -72,7 +72,7 @@ function Question({ defaultValue, label, tooltipText, onChange }) {
         step={0.05} // Smooth movement during dragging
         marks={[
           { value: 1, label: "Low" },
-          { value: 3, label: "Medium" },
+          { value: 3 },
           { value: 5, label: "High" },
         ]}
         valueLabelDisplay="off"
