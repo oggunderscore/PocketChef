@@ -175,7 +175,6 @@ function Home() {
         >
           Generate
         </button>
-        <ContactUsButton />
       </div>
     </div>
   );
