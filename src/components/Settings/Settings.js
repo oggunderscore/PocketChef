@@ -3,8 +3,19 @@
 import React, { useState } from "react";
 import "./Settings.css";
 import Modal from "./Modal";
+import UpdatePassword from "./UpdatePassword";
 
 const Settings = () => {
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  const openPasswordModal = () => {
+    setIsPasswordModalOpen(true);
+  };
+
+  const closePasswordModal = () => {
+    setIsPasswordModalOpen(false);
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [placeholder, setPlaceholder] = useState("");
@@ -23,12 +34,14 @@ const Settings = () => {
   return (
     <div className="settings-container">
       <h2>Settings</h2>
+      {isPasswordModalOpen && <UpdatePassword onClose={closePasswordModal} />}
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
           <li onClick={() => openModal("Username")}>Username</li>
           <li onClick={() => openModal("Email")}>Update Email</li>
-          <li onClick={() => openModal("Password")}>Update Password</li>
+          {/* <li onClick={() => openModal("Password")}>Update Password</li> */}
+          <li onClick={openPasswordModal}>Update Password</li>
           <li>Delete Data</li>
         </ul>
       </div>

@@ -1,7 +1,10 @@
-// src/components/Settings/UpdateUsername.js
-
 import React, { useState } from "react";
-// import { db } from "../../firebase"; // Commented out since Firebase isn't set up yet
+import {
+  getAuth,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from "firebase/auth";
 
 const modalStyle = {
   position: "fixed",
@@ -30,87 +33,87 @@ const errorTextStyle = {
   fontSize: "0.875rem",
 };
 
-const UpdateUsername = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUsername, setNewUsername] = useState("");
+const UpdatePassword = ({ onClose }) => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleOldPasswordChange = (event) => {
+    setOldPassword(event.target.value);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setNewUsername("");
-    setError("");
+  const handleNewPasswordChange = (event) => {
+    setNewPassword(event.target.value);
   };
 
-  const handleUsernameChange = (event) => {
-    setNewUsername(event.target.value);
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   const handleSubmit = async () => {
-    if (!newUsername) {
-      setError("Username cannot be empty");
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setError("All fields are required");
       return;
     }
+    if (newPassword !== confirmPassword) {
+      setError("New passwords do not match");
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate the check for now
-    setTimeout(() => {
-      // Commented out Firebase checks
-      /*
-      try {
-        const usernameExists = await db
-          .collection("users")
-          .where("username", "==", newUsername)
-          .get();
-        if (!usernameExists.empty) {
-          setError("Username already exists");
-        } else {
-          // Handle the actual username update in your Firebase authentication
-          // Example: await user.updateProfile({ displayName: newUsername });
-          setError("");
-          // Close the modal and reset the input
-          closeModal();
-        }
-      } catch (err) {
-        setError("An error occurred. Please try again.");
-      }
-      */
-      // For now, assume no conflicts and close the modal after a short delay
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+
+    try {
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword);
       setError("");
-      closeModal();
-      setIsLoading(false);
-    }, 1500);
+      onClose(); // Close the modal on success
+    } catch (err) {
+      setError("Failed to update password. Please try again.");
+    }
+    setIsLoading(false);
   };
 
   return (
-    <div className="update-username">
-      <div onClick={openModal}>Username</div>
+    <div>
+      <div onClick={() => onClose()}>Change Password</div>
 
-      {isModalOpen && (
-        <div style={modalStyle}>
-          <div style={modalContentStyle}>
-            <h3>Update Username</h3>
-            <input
-              type="text"
-              value={newUsername}
-              onChange={handleUsernameChange}
-              placeholder="Enter new username"
-            />
-            {error && <p style={errorTextStyle}>{error}</p>}
-            <div style={modalButtonsStyle}>
-              <button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? "Checking..." : "OK"}
-              </button>
-              <button onClick={closeModal}>Cancel</button>
-            </div>
+      <div style={modalStyle}>
+        <div style={modalContentStyle}>
+          <h3>Update Password</h3>
+          <input
+            type="password"
+            value={oldPassword}
+            onChange={handleOldPasswordChange}
+            placeholder="Old Password"
+          />
+          <input
+            type="password"
+            value={newPassword}
+            onChange={handleNewPasswordChange}
+            placeholder="New Password"
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            placeholder="Confirm New Password"
+          />
+          {error && <p style={errorTextStyle}>{error}</p>}
+          <div style={modalButtonsStyle}>
+            <button onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? "Updating..." : "OK"}
+            </button>
+            <button onClick={onClose}>Cancel</button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default UpdateUsername;
+export default UpdatePassword;
