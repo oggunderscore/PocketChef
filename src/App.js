@@ -6,7 +6,7 @@ import Favorites from "./components/Favorites/Favorites.js";
 import History from "./components/History/History.js";
 import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
-import Auth from "./components/shared/Auth";
+import Auth from "./components/Authentication/Authentication.js";
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
 
 function App() {
