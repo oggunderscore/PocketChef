@@ -7,6 +7,7 @@ import History from "./components/History/History.js";
 import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
 import Auth from "./components/shared/Auth";
+import Gpt from "./components/shared/gpt";
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/login" element={<Auth />} />
+          <Route path="/gpt" element={<Gpt />} />
           {/* Add more routes here if needed */}
         </Routes>
       </Router>
