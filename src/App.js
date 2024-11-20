@@ -6,12 +6,10 @@ import Favorites from "./components/Favorites/Favorites.js";
 import History from "./components/History/History.js";
 import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
-<<<<<<< HEAD
-import Auth from "./components/shared/Auth";
-import Gpt from "./components/shared/gpt";
-=======
+
+import Gpt from "./services/gpt.js";
 import Auth from "./components/Authentication/Authentication.js";
->>>>>>> d626badcbd63f02b520946d61e78a2b78cd62cd0
+
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
 
 function App() {
