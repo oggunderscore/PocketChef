@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,11 +17,8 @@ const firebaseConfig = {
   storageBucket: "pocket-chef-b12ca.appspot.com",
   messagingSenderId: "360017427713",
   appId: "1:360017427713:web:3d457eaadf8f5861bcaf00",
-  measurementId: "G-V1F8YZBHH1"
+  measurementId: "G-V1F8YZBHH1",
 };
-
-
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -28,6 +27,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app); // Add Firebase Authentication initialization
 
 export { auth }; // Export auth if needed in other files
+export const db = getFirestore(app);
 
 // Export the initialized Firebase app
 export default app;
