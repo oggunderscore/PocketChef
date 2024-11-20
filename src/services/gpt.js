@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { generatePath } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //import {  } from 'react-router-dom';
 
 const RecipeGenerator = ({ route }) => {
@@ -9,7 +9,8 @@ const RecipeGenerator = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-const { ingredients, budget, complexity, time, customInstructions } = useParams();
+const location = useLocation();
+const { ingredients, budget, complexity, time, customInstructions } = location.state || {};
 console.log({ ingredients, budget, complexity, time, customInstructions });
 
   // Initialize Firebase Functions
