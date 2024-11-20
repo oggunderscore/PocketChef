@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
+import "./FeedbackButton.css";
 
 const FeedbackForm = ({ closeForm }) => {
   const [name, setName] = useState("");

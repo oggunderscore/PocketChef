@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Question from "./Question"; // Assuming Question.js is the component for each slider
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
@@ -70,7 +70,7 @@ function Home() {
       customInstructions,
     });
 
-    navigate('/gpt', {
+    navigate("/gpt", {
       state: {
         ingredients,
         budget,
@@ -79,7 +79,6 @@ function Home() {
         customInstructions,
       },
     });
-
   };
 
   return (
@@ -176,6 +175,7 @@ function Home() {
         >
           Generate
         </button>
+        <ContactUsButton />
       </div>
     </div>
   );

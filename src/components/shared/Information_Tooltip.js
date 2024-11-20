@@ -1,4 +1,4 @@
-// InformationTooltip.js
+// This tooltip is not currently being used, should it be revived?
 import React from "react";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
