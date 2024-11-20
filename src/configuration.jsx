@@ -14,7 +14,7 @@ const firebaseConfig = {
   authDomain: "pocket-chef-b12ca.firebaseapp.com",
   databaseURL: "https://pocket-chef-b12ca-default-rtdb.firebaseio.com",
   projectId: "pocket-chef-b12ca",
-  storageBucket: "pocket-chef-b12ca.appspot.com",
+  storageBucket: "pocket-chef-b12ca.firebasestorage.app",
   messagingSenderId: "360017427713",
   appId: "1:360017427713:web:3d457eaadf8f5861bcaf00",
   measurementId: "G-V1F8YZBHH1",
