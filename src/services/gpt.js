@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { generatePath } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -12,6 +12,8 @@ const RecipeGenerator = ({ route }) => {
 const location = useLocation();
 const { ingredients, budget, complexity, time, customInstructions } = location.state || {};
 console.log({ ingredients, budget, complexity, time, customInstructions });
+
+
 
   // Initialize Firebase Functions
   const functions = getFunctions();
@@ -30,17 +32,23 @@ console.log({ ingredients, budget, complexity, time, customInstructions });
   const [userCookingTime] = useState("under 30 minutes");
   const [userRestrictions] = useState("none");
 
+  useEffect(() => {
+    // This function will run once when the component mounts
+    submitMessage();
+  }, []);
+
   const generatePrompt = () => {
   const prompt = `
     Create a recipe with the following parameters:
-    Ingredients: ${ingredients.join(", ")}
-    Budget: ${budget}
-    Complexity: ${complexity}
-    Cooking Time: ${time}
+    Ingredients: ${ingredients}/5
+    Budget: ${budget}/5
+    Complexity: ${complexity}/5
+    Cooking Time: ${time}/5
     Custom Instrucitons: ${customInstructions}
     Please provide a recipe that is easy to follow and includes cooking instructions. Do not include a section with equipment.
   `;
-  submitMessage();
+
+  
 
   // Return the prompt, trimmed of any extra whitespace
   return prompt.trim();
