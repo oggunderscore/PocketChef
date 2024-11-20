@@ -8,7 +8,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-import "./Auth.css"; // Add new styles for minimalistic design
+import "./Authentication.css"; // Add new styles for minimalistic design
 
 // Firebase Authentication instance
 const auth = getAuth(app);
