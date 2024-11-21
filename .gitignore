@@ -2,6 +2,8 @@ node_modules/
 api_keys.txt
 .DS_Store
 
+configuration.jsx
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
