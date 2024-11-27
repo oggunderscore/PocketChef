@@ -7,11 +7,12 @@ import { Menu, MenuItem } from "@mui/material";
 const Favorites = () => {
   const [folders, setFolders] = useState([]);
   const [expandedFolders, setExpandedFolders] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Manage the search query state
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [newFolderName, setNewFolderName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedFolder, setSelectedFolder] = useState(null);
+  const [draggedFolder, setDraggedFolder] = useState(null);
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -109,6 +110,32 @@ const Favorites = () => {
     handleMenuClose();
   };
 
+  const handleDragStart = (folderId) => {
+    setDraggedFolder(folderId);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Allow drop
+  };
+
+  const handleDrop = (targetFolderId) => {
+    const draggedIndex = folders.findIndex(
+      (folder) => folder.id === draggedFolder
+    );
+    const targetIndex = folders.findIndex(
+      (folder) => folder.id === targetFolderId
+    );
+
+    if (draggedIndex !== -1 && targetIndex !== -1) {
+      const updatedFolders = [...folders];
+      const [draggedItem] = updatedFolders.splice(draggedIndex, 1);
+      updatedFolders.splice(targetIndex, 0, draggedItem);
+      setFolders(updatedFolders);
+    }
+
+    setDraggedFolder(null);
+  };
+
   return (
     <div className="favorites-container">
       <h2 className="favorites-title">Favorites</h2>
@@ -141,7 +168,14 @@ const Favorites = () => {
       </div>
       <ul className="favorites-list">
         {folders.map((folder) => (
-          <li key={folder.id} className="favorites-folder">
+          <li
+            key={folder.id}
+            className="favorites-folder"
+            draggable
+            onDragStart={() => handleDragStart(folder.id)}
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(folder.id)}
+          >
             <div className="folder-header">
               <div
                 className="folder-left"
