@@ -27,6 +27,7 @@ const questionStyle = {
   alignItems: "center",
   justifyContent: "center",
   marginBottom: "0px",
+  marginTop: "0px",
 };
 
 const questionTextStyle = {

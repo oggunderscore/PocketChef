@@ -107,7 +107,7 @@ function Home() {
         />
 
         <div className="ingredient-container">
-          <p className="ingredient-text">Ingredients:</p>
+          <p className="ingredient-text">Ingredients</p>
           <div className="ingredients-list">
             {ingredients.map((ingredient, index) => (
               <span key={index} className="ingredient-item">
