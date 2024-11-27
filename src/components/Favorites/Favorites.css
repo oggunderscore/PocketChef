@@ -22,33 +22,11 @@
 }
 
 .search-input {
-  padding: 10px;
-  width: 100%;
+  padding: 8px;
+  width: calc(100% - 20px); /* Adjust width to prevent overflow */
   border-radius: 25px;
   border: 1px solid #000;
   outline: none;
-  padding-right: 40px;
-}
-
-.search-dropdown {
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.search-item {
-  padding: 10px;
-  cursor: pointer;
-  list-style-type: none; /* Removes bullet points from search items */
-}
-
-.search-item:hover {
-  background-color: #f0f0f0;
 }
 
 .create-folder-container {
@@ -58,7 +36,7 @@
 }
 
 .create-folder-container input {
-  padding: 10px;
+  padding: 6px;
   border: 1px solid #ddd;
   border-radius: 5px;
   flex-grow: 1;
@@ -69,13 +47,10 @@
   color: #ffffff; /* White text */
   border: none;
   border-radius: 20px;
-  padding: 10px 20px;
-  font-size: 1.5rem;
+  padding: 6px 14px; /* Slimmer button height */
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  margin: 0 auto;
-  display: block;
-  max-width: 300px;
 }
 
 .create-folder-container button:hover {
@@ -83,8 +58,8 @@
 }
 
 .favorites-list {
-  list-style-type: none; /* Remove default bullets */
-  padding: 0; /* Remove default padding */
+  list-style-type: none;
+  padding: 0;
   width: 70%;
 }
 
@@ -99,47 +74,36 @@
 .folder-left {
   display: flex;
   align-items: center;
+  gap: 10px; /* Add space between items */
+}
+
+.folder-icon {
+  transition: transform 0.3s ease-in-out;
+  transform-origin: center;
+}
+
+.folder-icon.expanded {
+  transform: rotate(90deg);
 }
 
 .folder-name {
   font-weight: bold;
   color: #12263e;
-  margin-left: 10px;
   cursor: pointer;
 }
 
 .folder-name:hover {
-  color: #0f1e30; /* Slightly darker blue on hover */
+  color: #0f1e30;
 }
 
-.folder-icon {
-  transition: transform 0.3s ease-in-out; /* Smooth rotation animation */
-  transform-origin: center center; /* Ensure rotation happens around the center */
-  display: inline-block; /* Ensure proper display */
-}
-
-.folder-icon.expanded {
-  transform: rotate(90deg); /* Rotate to point down */
-}
-
-.folder-actions {
-  display: flex; /* Use flexbox for layout */
-  gap: 5px; /* Add space between buttons */
-}
-
-.folder-actions button {
-  background-color: #12263e; /* Dark blue */
-  color: #ffffff; /* White text */
-  border: none;
-  border-radius: 20px;
-  padding: 5px 10px; /* Consistent padding for all buttons */
-  font-size: 0.9rem; /* Uniform font size */
-  font-weight: bold;
+.more-icon {
+  color: #12263e;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.folder-actions button:hover {
-  background-color: #0f1e30; /* Slightly darker blue for hover */
+.more-icon:hover {
+  color: #0f1e30; /* Slightly darker on hover */
 }
 
 .folder-recipes {
@@ -154,13 +118,13 @@
   opacity: 1;
 }
 
-.recipe-list {
+.favorites-recipe-list {
   list-style-type: none;
-  padding-left: 30px;
-  margin-top: 10px;
+  padding-left: 80px;
+  margin-top: 5px;
 }
 
-.recipe-item {
-  padding: 5px 0;
+.favorites-recipe-item {
+  padding-bottom: 10px;
   color: #333;
 }

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./Favorites.css";
-import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded"; // Import Material UI ArrowForward icon
+import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
+import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone";
+import { Menu, MenuItem } from "@mui/material";
 
 const Favorites = () => {
   const [folders, setFolders] = useState([]);
   const [expandedFolders, setExpandedFolders] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // Manage the search query state
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [newFolderName, setNewFolderName] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedFolder, setSelectedFolder] = useState(null);
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -75,16 +79,34 @@ const Favorites = () => {
     }
   };
 
-  const renameFolder = (folderId, newName) => {
-    setFolders(
-      folders.map((folder) =>
-        folder.id === folderId ? { ...folder, name: newName } : folder
-      )
-    );
+  const handleMenuClick = (event, folderId) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedFolder(folderId);
   };
 
-  const deleteFolder = (folderId) => {
-    setFolders(folders.filter((folder) => folder.id !== folderId));
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedFolder(null);
+  };
+
+  const renameFolder = () => {
+    const newName = prompt(
+      "Enter new folder name:",
+      folders.find((folder) => folder.id === selectedFolder)?.name
+    );
+    if (newName) {
+      setFolders(
+        folders.map((folder) =>
+          folder.id === selectedFolder ? { ...folder, name: newName } : folder
+        )
+      );
+    }
+    handleMenuClose();
+  };
+
+  const deleteFolder = () => {
+    setFolders(folders.filter((folder) => folder.id !== selectedFolder));
+    handleMenuClose();
   };
 
   return (
@@ -125,6 +147,13 @@ const Favorites = () => {
                 className="folder-left"
                 onClick={() => toggleFolder(folder.id)}
               >
+                <MoreVertTwoToneIcon
+                  className="more-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleMenuClick(e, folder.id);
+                  }}
+                />
                 <ArrowForwardIosRounded
                   className={`folder-icon ${
                     expandedFolders.includes(folder.id) ? "expanded" : ""
@@ -132,37 +161,15 @@ const Favorites = () => {
                 />
                 <span className="folder-name">{folder.name}</span>
               </div>
-              <div className="folder-actions">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent toggle on button click
-                    const newName = prompt(
-                      "Enter new folder name:",
-                      folder.name
-                    );
-                    if (newName) renameFolder(folder.id, newName);
-                  }}
-                >
-                  Rename
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent toggle on button click
-                    deleteFolder(folder.id);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
             </div>
             <div
               className={`folder-recipes ${
                 expandedFolders.includes(folder.id) ? "expanded" : ""
               }`}
             >
-              <ul className="recipe-list">
+              <ul className="favorites-recipe-list">
                 {folder.recipes.map((recipe) => (
-                  <li key={recipe.id} className="recipe-item">
+                  <li key={recipe.id} className="favorites-recipe-item">
                     {recipe.name}
                   </li>
                 ))}
@@ -171,6 +178,14 @@ const Favorites = () => {
           </li>
         ))}
       </ul>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={renameFolder}>Rename</MenuItem>
+        <MenuItem onClick={deleteFolder}>Delete</MenuItem>
+      </Menu>
     </div>
   );
 };
