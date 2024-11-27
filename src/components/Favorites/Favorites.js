@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Favorites.css";
+import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded"; // Import Material UI ArrowForward icon
 
 const Favorites = () => {
   const [folders, setFolders] = useState([]);
@@ -9,7 +10,6 @@ const Favorites = () => {
   const [newFolderName, setNewFolderName] = useState("");
 
   useEffect(() => {
-    // Fetch folder data from an API or local storage
     const fetchFolders = async () => {
       const data = [
         {
@@ -20,8 +20,24 @@ const Favorites = () => {
             { id: "r2", name: "Roasted Asparagus" },
           ],
         },
-        { id: 2, name: "Keto", recipes: [] },
-        { id: 3, name: "Vegan", recipes: [] },
+        {
+          id: 2,
+          name: "Keto",
+          recipes: [
+            { id: "r3", name: "Keto Pancakes" },
+            { id: "r4", name: "Grilled Salmon" },
+            { id: "r5", name: "Avocado Salad" },
+          ],
+        },
+        {
+          id: 3,
+          name: "Vegan",
+          recipes: [
+            { id: "r6", name: "Vegan Burger" },
+            { id: "r7", name: "Quinoa Salad" },
+            { id: "r8", name: "Vegan Brownies" },
+          ],
+        },
       ];
       setFolders(data);
     };
@@ -71,34 +87,6 @@ const Favorites = () => {
     setFolders(folders.filter((folder) => folder.id !== folderId));
   };
 
-  const moveRecipe = (recipeId, sourceFolderId, targetFolderId) => {
-    const sourceFolder = folders.find((folder) => folder.id === sourceFolderId);
-    const targetFolder = folders.find((folder) => folder.id === targetFolderId);
-    if (sourceFolder && targetFolder) {
-      const recipeToMove = sourceFolder.recipes.find(
-        (recipe) => recipe.id === recipeId
-      );
-      if (recipeToMove) {
-        setFolders(
-          folders.map((folder) => {
-            if (folder.id === sourceFolderId) {
-              return {
-                ...folder,
-                recipes: folder.recipes.filter(
-                  (recipe) => recipe.id !== recipeId
-                ),
-              };
-            }
-            if (folder.id === targetFolderId) {
-              return { ...folder, recipes: [...folder.recipes, recipeToMove] };
-            }
-            return folder;
-          })
-        );
-      }
-    }
-  };
-
   return (
     <div className="favorites-container">
       <h2 className="favorites-title">Favorites</h2>
@@ -133,51 +121,53 @@ const Favorites = () => {
         {folders.map((folder) => (
           <li key={folder.id} className="favorites-folder">
             <div className="folder-header">
-              <span>{folder.name}</span>
+              <div
+                className="folder-left"
+                onClick={() => toggleFolder(folder.id)}
+              >
+                <ArrowForwardIosRounded
+                  className={`folder-icon ${
+                    expandedFolders.includes(folder.id) ? "expanded" : ""
+                  }`}
+                />
+                <span className="folder-name">{folder.name}</span>
+              </div>
               <div className="folder-actions">
-                <button onClick={() => toggleFolder(folder.id)}>
-                  {expandedFolders.includes(folder.id) ? "−" : "+"}
-                </button>
                 <button
-                  onClick={() =>
-                    renameFolder(
-                      folder.id,
-                      prompt("Enter new folder name:", folder.name)
-                    )
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent toggle on button click
+                    const newName = prompt(
+                      "Enter new folder name:",
+                      folder.name
+                    );
+                    if (newName) renameFolder(folder.id, newName);
+                  }}
                 >
                   Rename
                 </button>
-                <button onClick={() => deleteFolder(folder.id)}>Delete</button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent toggle on button click
+                    deleteFolder(folder.id);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </div>
-            {expandedFolders.includes(folder.id) && (
-              <ul className="folder-recipes">
+            <div
+              className={`folder-recipes ${
+                expandedFolders.includes(folder.id) ? "expanded" : ""
+              }`}
+            >
+              <ul className="recipe-list">
                 {folder.recipes.map((recipe) => (
-                  <li key={recipe.id}>
-                    <span>{recipe.name}</span>
-                    <select
-                      onChange={(e) =>
-                        moveRecipe(
-                          recipe.id,
-                          folder.id,
-                          parseInt(e.target.value)
-                        )
-                      }
-                    >
-                      <option value="">Move to...</option>
-                      {folders
-                        .filter((f) => f.id !== folder.id)
-                        .map((targetFolder) => (
-                          <option key={targetFolder.id} value={targetFolder.id}>
-                            {targetFolder.name}
-                          </option>
-                        ))}
-                    </select>
+                  <li key={recipe.id} className="recipe-item">
+                    {recipe.name}
                   </li>
                 ))}
               </ul>
-            )}
+            </div>
           </li>
         ))}
       </ul>

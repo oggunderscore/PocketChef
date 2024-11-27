@@ -1,4 +1,4 @@
-.history-container {
+.favorites-container {
   padding: 20px;
   background-color: #fcf4e7;
   height: 100vh;
@@ -41,6 +41,16 @@
   overflow-y: auto;
 }
 
+.search-item {
+  padding: 10px;
+  cursor: pointer;
+  list-style-type: none; /* Removes bullet points from search items */
+}
+
+.search-item:hover {
+  background-color: #f0f0f0;
+}
+
 .create-folder-container {
   display: flex;
   gap: 10px;
@@ -72,12 +82,49 @@
   background-color: #0f1e30; /* Slightly darker blue */
 }
 
+.favorites-list {
+  list-style-type: none; /* Remove default bullets */
+  padding: 0; /* Remove default padding */
+  width: 70%;
+}
+
 .folder-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Align left and right sections */
   align-items: center;
+  cursor: pointer;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+}
+
+.folder-left {
+  display: flex;
+  align-items: center;
+}
+
+.folder-name {
+  font-weight: bold;
+  color: #12263e;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.folder-name:hover {
+  color: #0f1e30; /* Slightly darker blue on hover */
+}
+
+.folder-icon {
+  transition: transform 0.3s ease-in-out; /* Smooth rotation animation */
+  transform-origin: center center; /* Ensure rotation happens around the center */
+  display: inline-block; /* Ensure proper display */
+}
+
+.folder-icon.expanded {
+  transform: rotate(90deg); /* Rotate to point down */
+}
+
+.folder-actions {
+  display: flex; /* Use flexbox for layout */
+  gap: 5px; /* Add space between buttons */
 }
 
 .folder-actions button {
@@ -85,17 +132,35 @@
   color: #ffffff; /* White text */
   border: none;
   border-radius: 20px;
-  padding: 8px 15px;
-  font-size: 1rem;
+  padding: 5px 10px; /* Consistent padding for all buttons */
+  font-size: 0.9rem; /* Uniform font size */
   font-weight: bold;
   cursor: pointer;
-  margin-left: 10px;
 }
 
 .folder-actions button:hover {
-  background-color: #0f1e30; /* Slightly darker blue */
+  background-color: #0f1e30; /* Slightly darker blue for hover */
 }
 
 .folder-recipes {
-  padding-left: 20px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.folder-recipes.expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.recipe-list {
+  list-style-type: none;
+  padding-left: 30px;
+  margin-top: 10px;
+}
+
+.recipe-item {
+  padding: 5px 0;
+  color: #333;
 }
