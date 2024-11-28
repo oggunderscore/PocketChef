@@ -30,6 +30,6 @@ exports.generateText = functions.https.onCall(async (request) => {
     return { response: response.choices[0].message.content };
   } catch (error) {
     console.error('Error generating text:', error);
-    throw new functions.https.HttpsError('internal', 'Failed to generate text from OpenAI.');
+    throw new functions.https.HttpsError('internal', error);
   }
 });

@@ -1,5 +1,8 @@
 node_modules/
 api_keys.txt
+.DS_Store
+
+.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

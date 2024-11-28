@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Question from "./Question"; // Assuming Question.js is the component for each slider
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
@@ -22,6 +23,8 @@ function Home() {
   const [budget, setBudget] = useState(3);
   const [complexity, setComplexity] = useState(3);
   const [time, setTime] = useState(3);
+
+  const navigate = useNavigate();
 
   const handleAddIngredient = () => {
     if (newIngredient.trim() !== "") {
@@ -66,7 +69,16 @@ function Home() {
       time,
       customInstructions,
     });
-    // Implement your recipe generation logic here
+
+    navigate("/gpt", {
+      state: {
+        ingredients,
+        budget,
+        complexity,
+        time,
+        customInstructions,
+      },
+    });
   };
 
   return (
@@ -95,7 +107,7 @@ function Home() {
         />
 
         <div className="ingredient-container">
-          <p className="ingredient-text">Ingredients:</p>
+          <p className="ingredient-text">Ingredients</p>
           <div className="ingredients-list">
             {ingredients.map((ingredient, index) => (
               <span key={index} className="ingredient-item">

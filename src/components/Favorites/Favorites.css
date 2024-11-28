@@ -1,26 +1,130 @@
-/* src/components/Favorites/Favorites.css */
-
 .favorites-container {
   padding: 20px;
   background-color: #fcf4e7;
-  height: 150vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.favorites-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+.search-container {
+  position: relative;
+  width: 80%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 8px;
+  width: calc(100% - 20px); /* Adjust width to prevent overflow */
+  border-radius: 25px;
+  border: 1px solid #000;
+  outline: none;
+}
+
+.create-folder-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.create-folder-container input {
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  flex-grow: 1;
+}
+
+.create-folder-container button {
+  background-color: #12263e; /* Dark blue */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px; /* Slimmer button height */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.create-folder-container button:hover {
+  background-color: #0f1e30; /* Slightly darker blue */
 }
 
 .favorites-list {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  width: 70%;
 }
 
-.favorites-item {
+.folder-header {
+  display: flex;
+  justify-content: space-between; /* Align left and right sections */
+  align-items: center;
+  cursor: pointer;
   padding: 10px;
-  border-bottom: 1px solid #eee;
 }
 
-.favorites-item:hover {
-  background-color: #fcf4e7;
+.folder-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Add space between items */
 }
 
-.favorites-name {
+.folder-icon {
+  transition: transform 0.3s ease-in-out;
+  transform-origin: center;
+}
+
+.folder-icon.expanded {
+  transform: rotate(90deg);
+}
+
+.folder-name {
   font-weight: bold;
+  color: #12263e;
+  cursor: pointer;
+}
+
+.folder-name:hover {
+  color: #0f1e30;
+}
+
+.more-icon {
+  color: #12263e;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.more-icon:hover {
+  color: #0f1e30; /* Slightly darker on hover */
+}
+
+.folder-recipes {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.folder-recipes.expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.favorites-recipe-list {
+  list-style-type: none;
+  padding-left: 100px;
+  margin-top: 5px;
+}
+
+.favorites-recipe-item {
+  padding-bottom: 10px;
+  color: #333;
 }

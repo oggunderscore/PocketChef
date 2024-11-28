@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Slider } from "@mui/material";
-import InformationTooltip from "./Information_Tooltip";
+import InformationTooltip from "../shared/Information_Tooltip";
 
 const sliderStyles = {
   height: 8,
@@ -27,6 +27,7 @@ const questionStyle = {
   alignItems: "center",
   justifyContent: "center",
   marginBottom: "0px",
+  marginTop: "0px",
 };
 
 const questionTextStyle = {
