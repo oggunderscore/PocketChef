@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./UpdatePassword.css";
 import {
   getAuth,
   reauthenticateWithCredential,
@@ -13,123 +14,116 @@ const UpdatePassword = ({ onClose }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (!hasUpperCase) {
+      return "Password must include at least one uppercase letter.";
+    }
+    if (!hasLowerCase) {
+      return "Password must include at least one lowercase letter.";
+    }
+    if (!hasNumber) {
+      return "Password must include at least one number.";
+    }
+    if (!hasSpecialChar) {
+      return "Password must include at least one special character.";
+    }
+    return null;
+  };
+
   const handleUpdatePassword = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
+
+    const validationError = validatePassword(newPassword);
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
       setErrorMessage("New passwords do not match.");
       return;
     }
 
-    if (user && oldPassword) {
-      const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    try {
+      if (user) {
+        const credential = EmailAuthProvider.credential(
+          user.email,
+          oldPassword
+        );
 
-      try {
-        // Re-authenticate the user
         await reauthenticateWithCredential(user, credential);
 
-        // Update the password
         await updatePassword(user, newPassword);
+
         setSuccessMessage("Password updated successfully.");
         setErrorMessage("");
-        onClose(); // Close the modal on success
-      } catch (error) {
-        setErrorMessage(error.message);
-        setSuccessMessage("");
+        onClose();
+      } else {
+        setErrorMessage("User not authenticated. Please log in again.");
       }
-    } else {
-      setErrorMessage("Please provide your current password.");
+    } catch (error) {
+      if (error.code === "auth/wrong-password") {
+        setErrorMessage("The old password is incorrect.");
+      } else if (error.code === "auth/user-not-found") {
+        setErrorMessage("User not found. Please log in again.");
+      } else if (error.code === "auth/too-many-requests") {
+        setErrorMessage(
+          "Too many failed attempts. Please try again later or reset your password."
+        );
+      } else {
+        setErrorMessage("An unknown error occurred. Please try again.");
+      }
+      setSuccessMessage("");
     }
   };
 
-  // Inline styles for modal based on your updated design
-  const modalOverlayStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-
-  const modalContentStyle = {
-    backgroundColor: "white",
-    padding: "30px 20px",
-    borderRadius: "10px",
-    textAlign: "center",
-    width: "300px",
-    boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.2)",
-  };
-
-  const inputStyle = {
-    display: "block",
-    width: "100%",
-    padding: "8px",
-    margin: "10px 0",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-  };
-
-  const buttonContainerStyle = {
-    display: "flex",
-    justifyContent: "space-around",
-    marginTop: "20px",
-  };
-
-  const buttonStyle = {
-    padding: "8px 20px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    backgroundColor: "white",
-    cursor: "pointer",
-  };
-
-  const errorMessageStyle = {
-    color: "red",
-    fontSize: "0.9em",
-  };
-
-  const successMessageStyle = {
-    color: "green",
-    fontSize: "0.9em",
-  };
-
   return (
-    <div style={modalOverlayStyle}>
-      <div style={modalContentStyle}>
+    <div className="modal-overlay">
+      <div className="modal-content">
         <h2>Update Password</h2>
         <input
           type="password"
+          className="modal-input"
           placeholder="Old Password"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
-          style={inputStyle}
         />
         <input
           type="password"
+          className="modal-input"
           placeholder="New Password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          style={inputStyle}
         />
         <input
           type="password"
+          className="modal-input"
           placeholder="Confirm New Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          style={inputStyle}
         />
-        {errorMessage && <p style={errorMessageStyle}>{errorMessage}</p>}
-        {successMessage && <p style={successMessageStyle}>{successMessage}</p>}
-        <div style={buttonContainerStyle}>
-          <button onClick={handleUpdatePassword} style={buttonStyle}>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+        <div className="button-container">
+          <button className="modal-button" onClick={handleUpdatePassword}>
             OK
           </button>
-          <button onClick={onClose} style={buttonStyle}>
+          <button className="modal-button" onClick={onClose}>
             Cancel
           </button>
         </div>
