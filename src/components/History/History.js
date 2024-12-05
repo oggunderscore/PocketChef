@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./History.css";
 import SearchIcon from "@mui/icons-material/Search";
+import retrieveRecipe from "../Hooks/RetrieveRecipe";
 
 const History = () => {
   const [historyItems, setHistoryItems] = useState([]);
@@ -67,14 +68,6 @@ const History = () => {
     } else {
       setExpandedDates([...expandedDates, date]);
     }
-  };
-
-  const retrieveRecipe = (recipe_id) => {
-    console.log("retrieveRecipe(" + recipe_id + ")");
-    // Placeholder function to be used with Firebase
-    // Uncomment the following lines when integrating with Firebase
-    // const recipeData = await firebase.firestore().collection('recipes').doc(recipe_id).get();
-    // console.log("Recipe Data: ", recipeData.data());
   };
 
   return (

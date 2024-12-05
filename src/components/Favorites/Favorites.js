@@ -3,6 +3,7 @@ import "./Favorites.css";
 import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
 import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone";
 import { Menu, MenuItem } from "@mui/material";
+import retrieveRecipe from "../Hooks/RetrieveRecipe";
 
 const Favorites = () => {
   const [folders, setFolders] = useState([]);
@@ -13,6 +14,7 @@ const Favorites = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [draggedFolder, setDraggedFolder] = useState(null);
+  const [isSearchFocused, setIsSearchFocused] = useState(false); // Track search box focus
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -139,24 +141,42 @@ const Favorites = () => {
   return (
     <div className="favorites-container">
       <h2 className="favorites-title">Favorites</h2>
-      <div className="search-container">
+      <div
+        className="search-container"
+        onMouseDown={(e) => {
+          if (!e.target.closest(".search-dropdown")) {
+            // Only set focus outside the dropdown
+            setIsSearchFocused(false);
+          }
+        }}
+      >
         <input
           type="text"
           placeholder="Search Favorites"
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setIsSearchFocused(true)} // Set focused
+          onBlur={() => setIsSearchFocused(false)} // Unset focused after click processing
         />
-        {filteredRecipes.length > 0 && (
-          <ul className="search-dropdown">
+        {filteredRecipes.length > 0 && isSearchFocused && (
+          <ul
+            className="search-dropdown"
+            onMouseDown={(e) => e.preventDefault()} // Prevent input blur on dropdown interaction
+          >
             {filteredRecipes.map((recipe) => (
-              <li key={recipe.id} className="search-item">
+              <li
+                key={recipe.id}
+                className="search-item"
+                onClick={() => retrieveRecipe(recipe.id)}
+              >
                 {recipe.name}
               </li>
             ))}
           </ul>
         )}
       </div>
+
       <div className="create-folder-container">
         <input
           type="text"
@@ -204,7 +224,12 @@ const Favorites = () => {
               <ul className="favorites-recipe-list">
                 {folder.recipes.map((recipe) => (
                   <li key={recipe.id} className="favorites-recipe-item">
-                    {recipe.name}
+                    <button
+                      className="favorites-recipe-button"
+                      onClick={() => retrieveRecipe(recipe.id)}
+                    >
+                      {recipe.name}
+                    </button>
                   </li>
                 ))}
               </ul>
