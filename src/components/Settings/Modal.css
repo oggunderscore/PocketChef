@@ -28,3 +28,8 @@
     padding: 8px 12px;
   }
   
+  .error-message {
+    white-space: pre-wrap;
+    color: red;
+    margin-top: 10px;
+  }
