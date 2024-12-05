@@ -8,6 +8,7 @@ const History = () => {
   const [expandedDates, setExpandedDates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false); // Track search box focus
 
   useEffect(() => {
     // Fetch history data from an API or local storage
@@ -80,10 +81,15 @@ const History = () => {
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setIsSearchFocused(true)} // Set focused
+          onBlur={() => setIsSearchFocused(false)} // Unset focused after click processing
         />
         <SearchIcon className="search-icon" />
-        {filteredRecipes.length > 0 && (
-          <ul className="search-dropdown">
+        {filteredRecipes.length > 0 && isSearchFocused && (
+          <ul
+            className="search-dropdown"
+            onMouseDown={(e) => e.preventDefault()} // Prevent input blur on dropdown interaction
+          >
             {filteredRecipes.map((recipe) => (
               <li
                 key={recipe.id}
