@@ -12,6 +12,11 @@ const RecipeGenerator = () => {
   const [error, setError] = useState(null);
 
   const handleGenerateRecipe = async () => {
+    if (!ingredients.trim()) {
+      setError("Please provide at least one ingredient.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setRecipe(null);
@@ -41,107 +46,139 @@ const RecipeGenerator = () => {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <h1>Recipe Generator</h1>
-      <div>
-        <label>
-          Ingredients:
-          <input
-            type="text"
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Budget:
-          <select value={budget} onChange={(e) => setBudget(e.target.value)}>
-            <option value="Cheap">Cheap</option>
-            <option value="Somewhat Cheap">Somewhat Cheap</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Slightly Expensive">Slightly Expensive</option>
-            <option value="Expensive">Expensive</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          Complexity:
-          <select
-            value={complexity}
-            onChange={(e) => setComplexity(e.target.value)}
-          >
-            <option value="Easy">Easy</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          Cooking Time:
-          <select
-            value={cookingTime}
-            onChange={(e) => setCookingTime(e.target.value)}
-          >
-            <option value="under 30 minutes">Under 30 minutes</option>
-            <option value="30-60 minutes">30-60 minutes</option>
-            <option value="over 60 minutes">Over 60 minutes</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          Dietary Restrictions:
-          <input
-            type="text"
-            value={restrictions}
-            onChange={(e) => setRestrictions(e.target.value)}
-          />
-        </label>
-      </div>
-      <button onClick={handleGenerateRecipe} disabled={loading}>
+      <InputField
+        label="Ingredients"
+        value={ingredients}
+        onChange={(e) => setIngredients(e.target.value)}
+      />
+      <InputField
+        label="Budget"
+        value={budget}
+        onChange={(e) => setBudget(e.target.value)}
+        type={{
+          options: [
+            "Cheap",
+            "Somewhat Cheap",
+            "Moderate",
+            "Slightly Expensive",
+            "Expensive",
+          ],
+        }}
+      />
+      <InputField
+        label="Complexity"
+        value={complexity}
+        onChange={(e) => setComplexity(e.target.value)}
+        type={{ options: ["Easy", "Moderate", "Hard"] }}
+      />
+      <InputField
+        label="Cooking Time"
+        value={cookingTime}
+        onChange={(e) => setCookingTime(e.target.value)}
+        type={{
+          options: ["under 30 minutes", "30-60 minutes", "over 60 minutes"],
+        }}
+      />
+      <InputField
+        label="Dietary Restrictions"
+        value={restrictions}
+        onChange={(e) => setRestrictions(e.target.value)}
+      />
+      <button
+        onClick={handleGenerateRecipe}
+        disabled={loading}
+        style={{
+          backgroundColor: loading ? "#ccc" : "#007BFF",
+          cursor: loading ? "not-allowed" : "pointer",
+          color: "#fff",
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "5px",
+        }}
+      >
         {loading ? "Generating..." : "Generate Recipe"}
       </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {recipe && (
-        <div>
-          <h2>{recipe.title}</h2>
-          <h3>
-            <strong>Ingredients</strong>
-          </h3>
-          {recipe.ingredients && recipe.ingredients.length > 0 ? (
-            <ul>
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No ingredients available.</p>
-          )}
-          <h3>
-            <strong>Instructions</strong>
-          </h3>
-          <p style={{ fontWeight: "bold" }}>
-            {recipe.instructions || "No instructions provided."}
-          </p>
-          {recipe.tips && recipe.tips.length > 0 && (
-            <>
-              <h3>
-                <strong>Tips</strong>
-              </h3>
-              <ul>
-                {recipe.tips.map((tip, index) => (
-                  <li key={index}>{tip}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
+      {error && (
+        <p style={{ color: "red", fontWeight: "bold", textAlign: "center" }}>
+          {error}
+        </p>
       )}
+      {recipe && <RecipeDisplay recipe={recipe} />}
     </div>
   );
 };
+
+const InputField = ({ label, value, onChange, type = "text" }) => (
+  <div style={{ marginBottom: "10px" }}>
+    <label>
+      {label}:
+      {type === "text" ? (
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+          style={{ marginLeft: "10px" }}
+        />
+      ) : (
+        <select
+          value={value}
+          onChange={onChange}
+          style={{ marginLeft: "10px" }}
+        >
+          {type.options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      )}
+    </label>
+  </div>
+);
+
+const RecipeDisplay = ({ recipe }) => (
+  <div
+    style={{
+      marginTop: "20px",
+      padding: "10px",
+      border: "1px solid #ddd",
+      borderRadius: "5px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      gap: "20px",
+    }}
+  >
+    <h2 style={{ textAlign: "center" }}>{recipe.title}</h2>
+    <h3>
+      <strong>Ingredients</strong>
+    </h3>
+    <ul>
+      {recipe.ingredients.map((ingredient, index) => (
+        <li key={index}>{ingredient}</li>
+      ))}
+    </ul>
+    <h3>
+      <strong>Instructions</strong>
+    </h3>
+    <p style={{ fontWeight: "bold" }}>
+      {recipe.instructions || "No instructions provided."}
+    </p>
+    {recipe.tips && (
+      <>
+        <h3>
+          <strong>Tips</strong>
+        </h3>
+        <ul>
+          {recipe.tips.map((tip, index) => (
+            <li key={index}>{tip}</li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+);
 
 export default RecipeGenerator;
