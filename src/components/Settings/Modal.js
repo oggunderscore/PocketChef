@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth, db } from "../../configuration.js";
-import {updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider} from "firebase/auth";
+import {updateEmail, updatePassword, sendEmailVerification, reauthenticateWithCredential, EmailAuthProvider} from "firebase/auth";
 import {doc, setDoc, updateDoc } from "firebase/firestore";
 import "./Modal.css"; // Style this to look like a pop-up
 
@@ -46,6 +46,8 @@ const handleSave = async () => {
         //resets error before validation
         setError("");
         const user = auth.currentUser;
+
+        //email validation
         if(currentField === "email") {
             if (!validateEmail(value)) {
                 setError("Please enter a valid email address.");
@@ -54,10 +56,15 @@ const handleSave = async () => {
 
             //update firebase authentication
             await updateEmail(auth.currentUser, value);
+            //send email verification
+            await sendEmailVerification(auth.currentUser);
+            
             const userDoc = doc(db, "users", auth.currentUser.uid);
             //update firestore
             await setDoc(userDoc, { email: value }, { merge: true });
 
+            onSave("A verification email has been sent to your email address. Please verify it in your inbox.");
+            onClose();
         } else if (currentField === "password") {
             if(newPassword !== confirmPassword) {
                 setError("Passwords do not match.");
@@ -103,7 +110,12 @@ const handleSave = async () => {
         onClose();
         } catch (err) {
             //handle firebase errors
-            setError(err.message);
+            if(err.code ==="auth/operation-not-allowed") {
+                setError("The new email must be verified before updating.");
+            } else {
+                setError(err.message);
+            }
+            
         }
 };
 
@@ -141,8 +153,11 @@ return (
                 />
             )}
             {error && <p style={{ color: "red", whiteSpace: "pre-line" }}>{error}</p>}
+            <div className="button-group">
             <button onClick={handleSave}>Save</button>
             <button onClick={onClose}>Cancel</button>
+            </div>
+            
         </div>
     </div>
     );
