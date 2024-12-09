@@ -20,15 +20,16 @@ function App() {
         <SideMenu /> {/* Include the SideMenu component here */}
         <Routes>
           {/* Authentication page will show initially when the app loads */}
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<Home />} />
           
           {/* Other routes */}
-          <Route path="/home" element={<Home />} />
+          
           <Route path="/loadingpage" element={<LoadingPage />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/history" element={<History />} />
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/login" element={<Auth />} />
           <Route path="/gpt" element={<Gpt />} />
         </Routes>
       </Router>

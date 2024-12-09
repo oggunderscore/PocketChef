@@ -29,7 +29,7 @@ const handleSignUp = (email, password, navigate) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log("User signed up:", userCredential.user);
-      navigate("home");
+      navigate("/");
     })
     .catch((error) => console.error("Error signing up:", error));
 };
@@ -39,7 +39,7 @@ const handleSignIn = (email, password, navigate) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log("User signed in:", userCredential.user);
-      navigate("/home");
+      navigate("/");
     })
     .catch((error) => console.error("Error signing in:", error));
 };
@@ -74,7 +74,7 @@ const Auth = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (!currentUser) {
-        navigate("/");
+        navigate("/login");
       }
     });
 

@@ -69,7 +69,7 @@ const SideMenu = () => {
     signOut(auth)
       .then(() => {
         console.log("User signed out");
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Error signing out:", error);
@@ -77,7 +77,7 @@ const SideMenu = () => {
   };
 
   const handleLoginClick = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -114,7 +114,7 @@ const SideMenu = () => {
         >
           <List dense>
             {/* Applying bold typography using primaryTypographyProps */}
-            <ListItem button component={Link} to="/home">
+            <ListItem button component={Link} to="/">
               <ListItemText
                 primary="Home"
                 primaryTypographyProps={linkTextStyle}
