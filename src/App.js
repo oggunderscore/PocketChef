@@ -7,8 +7,9 @@ import History from "./components/History/History.js";
 import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
 
-import Gpt from "./services/gpt.js";
+// import Gpt from "./services/gpt.js";
 import Auth from "./components/Authentication/Authentication.js";
+import RecipeGenerator from "./components/Recipe/RecipeGenerator.js";
 
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
 
@@ -26,7 +27,7 @@ function App() {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/login" element={<Auth />} />
-          <Route path="/gpt" element={<Gpt />} />
+          <Route path="/generate" element={<RecipeGenerator />} />
           {/* Add more routes here if needed */}
         </Routes>
       </Router>

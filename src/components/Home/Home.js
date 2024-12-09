@@ -63,7 +63,7 @@ function Home() {
       customInstructions,
     });
 
-    navigate("/gpt", {
+    navigate("/generate", {
       state: {
         ingredients,
         budget,
