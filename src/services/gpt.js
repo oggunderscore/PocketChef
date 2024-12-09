@@ -1,59 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { generatePath } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-//import {  } from 'react-router-dom';
+import "./gpt.css"; // CSS file for styling
 
-const RecipeGenerator = ({ route }) => {
+const RecipeGenerator = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-const location = useLocation();
-const { ingredients, budget, complexity, time, customInstructions } = location.state || {};
-console.log({ ingredients, budget, complexity, time, customInstructions });
+  const location = useLocation();
+  const { ingredients, budget, complexity, time, customInstructions } =
+    location.state || {};
 
-
-
-  // Initialize Firebase Functions
   const functions = getFunctions();
 
-  // User input states for flexibility
-  const [userIngredients] = useState([
-    "ribeye steak",
-    "potatoes",
-    "corn",
-    "salt",
-    "pepper",
-    "butter",
-  ]);
-  const [userBudget] = useState("Cheap");
-  const [userComplexity] = useState("Easy");
-  const [userCookingTime] = useState("under 30 minutes");
-  const [userRestrictions] = useState("none");
-
   useEffect(() => {
-    // This function will run once when the component mounts
     submitMessage();
   }, []);
 
   const generatePrompt = () => {
-  const prompt = `
-    Create a recipe with the following parameters:
-    Ingredients: ${ingredients}/5
-    Budget: ${budget}/5
-    Complexity: ${complexity}/5
-    Cooking Time: ${time}/5
-    Custom Instrucitons: ${customInstructions}
-    Please provide a recipe that is easy to follow and includes cooking instructions. Do not include a section with equipment.
-  `;
-
-  
-
-  // Return the prompt, trimmed of any extra whitespace
-  return prompt.trim();
-};
-
+    return `
+      Create a recipe with the following parameters:
+      Ingredients: ${ingredients}/5
+      Budget: ${budget}/5
+      Complexity: ${complexity}/5
+      Cooking Time: ${time}/5
+      Custom Instructions: ${customInstructions}
+      Please provide a recipe that is easy to follow and includes cooking instructions.
+      Format the response with separate sections for "Ingredients" and "Instructions".
+    `.trim();
+  };
 
   const submitMessage = async () => {
     setLoading(true);
@@ -63,32 +39,58 @@ console.log({ ingredients, budget, complexity, time, customInstructions });
     const generateText = httpsCallable(functions, "generateText");
 
     try {
-      console.log({prompt:generatePrompt()});
       const result = await generateText({ prompt: generatePrompt() });
-      setResponse(result.data.response); // Firebase returns result.data.response
+      const formattedResponse = parseRecipe(result.data.response);
+      setResponse(formattedResponse);
     } catch (err) {
-      console.error("Error generating recipe:", err);
       setError("There was an issue generating the recipe. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>Recipe Generator (GPT-4 Turbo)</h1>
-      <button onClick={submitMessage} disabled={loading}>
-        {loading ? "Generating Recipe..." : "Generate Recipe"}
-      </button>
+  const parseRecipe = (text) => {
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+    const ingredientsIndex = lines.findIndex((line) =>
+      line.toLowerCase().includes("ingredients")
+    );
+    const instructionsIndex = lines.findIndex((line) =>
+      line.toLowerCase().includes("instructions")
+    );
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {response && (
-        <div>
-          <h2>Generated Recipe</h2>
-          <pre>{response}</pre>
-        </div>
-      )}
+    const ingredients = lines
+      .slice(ingredientsIndex + 1, instructionsIndex)
+      .map((line) => `- ${line.trim()}`) // Add dashes for each ingredient
+      .join("<br />");
+
+    const instructions = lines
+      .slice(instructionsIndex + 1)
+      .map((line, index) => `${index + 1}. ${line.trim()}`) // Properly numbered steps for instructions
+      .join("<br />");
+
+    return { ingredients, instructions };
+  };
+
+  return (
+    <div className="recipe-generator-container">
+      <div className="recipe-content">
+        <h2>{loading ? "Generating Recipe..." : "French Omelette"}</h2>
+        {response ? (
+          <div className="recipe-card">
+            <h3>Ingredients</h3>
+            <p dangerouslySetInnerHTML={{ __html: response.ingredients }} />
+            <h3>Instructions</h3>
+            <p dangerouslySetInnerHTML={{ __html: response.instructions }} />
+          </div>
+        ) : (
+          !loading && (
+            <button className="generate-btn" onClick={submitMessage}>
+              Generate Recipe
+            </button>
+          )
+        )}
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
 };
