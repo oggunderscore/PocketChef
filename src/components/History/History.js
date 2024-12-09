@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./History.css";
 import SearchIcon from "@mui/icons-material/Search";
+import retrieveRecipe from "../Hooks/RetrieveRecipe";
 
 const History = () => {
   const [historyItems, setHistoryItems] = useState([]);
   const [expandedDates, setExpandedDates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false); // Track search box focus
 
   useEffect(() => {
     // Fetch history data from an API or local storage
@@ -69,14 +71,6 @@ const History = () => {
     }
   };
 
-  const retrieveRecipe = (recipe_id) => {
-    console.log("retrieveRecipe(" + recipe_id + ")");
-    // Placeholder function to be used with Firebase
-    // Uncomment the following lines when integrating with Firebase
-    // const recipeData = await firebase.firestore().collection('recipes').doc(recipe_id).get();
-    // console.log("Recipe Data: ", recipeData.data());
-  };
-
   return (
     <div className="history-container">
       <h2 className="history-title">History</h2>
@@ -87,10 +81,15 @@ const History = () => {
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setIsSearchFocused(true)} // Set focused
+          onBlur={() => setIsSearchFocused(false)} // Unset focused after click processing
         />
         <SearchIcon className="search-icon" />
-        {filteredRecipes.length > 0 && (
-          <ul className="search-dropdown">
+        {filteredRecipes.length > 0 && isSearchFocused && (
+          <ul
+            className="search-dropdown"
+            onMouseDown={(e) => e.preventDefault()} // Prevent input blur on dropdown interaction
+          >
             {filteredRecipes.map((recipe) => (
               <li
                 key={recipe.id}
