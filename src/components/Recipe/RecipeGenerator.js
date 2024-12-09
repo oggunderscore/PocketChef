@@ -108,7 +108,9 @@ const RecipeGenerator = () => {
       {recipe && (
         <div>
           <h2>{recipe.title}</h2>
-          <h3>Ingredients</h3>
+          <h3>
+            <strong>Ingredients</strong>
+          </h3>
           {recipe.ingredients && recipe.ingredients.length > 0 ? (
             <ul>
               {recipe.ingredients.map((ingredient, index) => (
@@ -118,11 +120,17 @@ const RecipeGenerator = () => {
           ) : (
             <p>No ingredients available.</p>
           )}
-          <h3>Instructions</h3>
-          <p>{recipe.instructions || "No instructions provided."}</p>
+          <h3>
+            <strong>Instructions</strong>
+          </h3>
+          <p style={{ fontWeight: "bold" }}>
+            {recipe.instructions || "No instructions provided."}
+          </p>
           {recipe.tips && recipe.tips.length > 0 && (
             <>
-              <h3>Tips</h3>
+              <h3>
+                <strong>Tips</strong>
+              </h3>
               <ul>
                 {recipe.tips.map((tip, index) => (
                   <li key={index}>{tip}</li>
