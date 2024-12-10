@@ -27,6 +27,8 @@ const titleStyle = {
   transform: "translateX(-50%)",
   fontSize: "2.25rem",
   fontWeight: "bold",
+  color: "white",
+  textDecoration: "none", // Ensures it looks like a title and not a traditional link
 };
 
 const linkTextStyle = {
@@ -91,14 +93,16 @@ const SideMenu = () => {
         >
           <MenuIcon sx={{ fontSize: 32 }} />
         </IconButton>
-        <span style={titleStyle}>PocketChef</span>
+        <Link to="/" style={titleStyle}>
+          PocketChef
+        </Link>
       </div>
       <Drawer
         anchor="left"
         open={open}
         onClose={toggleDrawer(false)}
         PaperProps={{
-          style: drawerStyle, // Set the background color of the drawer
+          style: drawerStyle,
         }}
       >
         <div
@@ -107,13 +111,12 @@ const SideMenu = () => {
             paddingTop: "10px",
             paddingLeft: "10px",
             backgroundColor: "#02151D",
-            height: "100%", // Ensures it covers the full height
+            height: "100%",
           }}
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
           <List dense>
-            {/* Applying bold typography using primaryTypographyProps */}
             <ListItem button component={Link} to="/">
               <ListItemText
                 primary="Home"
