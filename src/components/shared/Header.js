@@ -69,6 +69,7 @@ const SideMenu = () => {
     signOut(auth)
       .then(() => {
         console.log("User signed out");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Error signing out:", error);
