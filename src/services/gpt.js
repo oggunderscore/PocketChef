@@ -60,12 +60,12 @@ const RecipeGenerator = () => {
 
     const ingredients = lines
       .slice(ingredientsIndex + 1, instructionsIndex)
-      .map((line) => `- ${line.trim()}`) // Add dashes for each ingredient
+      .map((line) => `${line.trim()}`) // Add dashes for each ingredient
       .join("<br />");
 
     const instructions = lines
       .slice(instructionsIndex + 1)
-      .map((line, index) => `${index + 1}. ${line.trim()}`) // Properly numbered steps for instructions
+      .map((line, index) => `${line.trim()}`) // Properly numbered steps for instructions
       .join("<br />");
 
     return { ingredients, instructions };
