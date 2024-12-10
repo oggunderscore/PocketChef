@@ -6,14 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
-  const [ingredients, setIngredients] = useState([
-    "Cheese",
-    "Bread",
-    "Milk",
-    "Eggs",
-    "Tomato",
-    "Butter",
-  ]);
+  const [ingredients, setIngredients] = useState([]);
 
   const [isAddingIngredient, setIsAddingIngredient] = useState(false);
   const [newIngredient, setNewIngredient] = useState("");
@@ -90,19 +83,19 @@ function Home() {
         <Question
           defaultValue={budget}
           label="What's your budget?"
-          tooltipText="Budget determines the price range of the recipe and how much the generation can expect the user to have"
+          tooltipText="Set your budget range from affordable to premium."
           onChange={setBudget}
         />
         <Question
           defaultValue={complexity}
           label="Cooking Complexity?"
-          tooltipText="Complexity determines the difficulty of the recipe and how much prior cooking experience and knowledge the user has"
+          tooltipText="Choose how simple or advanced you'd like the cooking process to be."
           onChange={setComplexity}
         />
         <Question
           defaultValue={time}
           label="Time Spent Cooking?"
-          tooltipText="Time determines the length of the recipe and how much time the user has to spend cooking"
+          tooltipText="Specify how much time you want to spend cooking, from quick meals to slow-cooked delights."
           onChange={setTime}
         />
 

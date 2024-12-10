@@ -7,22 +7,8 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const Preferences = () => {
-  const [restrictions, setRestrictions] = useState([
-    "Cheese",
-    "Bread",
-    "Milk",
-    "Eggs",
-    "Tomato",
-    "Butter",
-  ]);
-  const [cuisines, setCuisines] = useState([
-    "Chinese",
-    "Vietnamese",
-    "Indian",
-    "Korean",
-    "American",
-    "Japanese",
-  ]);
+  const [restrictions, setRestrictions] = useState([]);
+  const [cuisines, setCuisines] = useState([]);
 
   const [isAddingRestriction, setIsAddingRestriction] = useState(false);
   const [isAddingCuisine, setIsAddingCuisine] = useState(false);

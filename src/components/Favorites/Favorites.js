@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./Favorites.css";
 import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
 import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone";
 import { Menu, MenuItem } from "@mui/material";
+import retrieveRecipe from "../Hooks/RetrieveRecipe";
 
 const Favorites = () => {
   const [folders, setFolders] = useState([]);
@@ -12,13 +14,13 @@ const Favorites = () => {
   const [newFolderName, setNewFolderName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [draggedFolder, setDraggedFolder] = useState(null);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   useEffect(() => {
     const fetchFolders = async () => {
       const data = [
         {
-          id: 1,
+          id: "1",
           name: "Vegetarian",
           recipes: [
             { id: "r1", name: "Potato Salad" },
@@ -26,7 +28,7 @@ const Favorites = () => {
           ],
         },
         {
-          id: 2,
+          id: "2",
           name: "Keto",
           recipes: [
             { id: "r3", name: "Keto Pancakes" },
@@ -35,7 +37,7 @@ const Favorites = () => {
           ],
         },
         {
-          id: 3,
+          id: "3",
           name: "Vegan",
           recipes: [
             { id: "r6", name: "Vegan Burger" },
@@ -74,7 +76,7 @@ const Favorites = () => {
     if (newFolderName.trim()) {
       setFolders([
         ...folders,
-        { id: Date.now(), name: newFolderName, recipes: [] },
+        { id: Date.now().toString(), name: newFolderName, recipes: [] },
       ]);
       setNewFolderName("");
     }
@@ -110,117 +112,140 @@ const Favorites = () => {
     handleMenuClose();
   };
 
-  const handleDragStart = (folderId) => {
-    setDraggedFolder(folderId);
-  };
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
 
-  const handleDragOver = (event) => {
-    event.preventDefault(); // Allow drop
-  };
+    const reorderedFolders = Array.from(folders);
+    const [removed] = reorderedFolders.splice(result.source.index, 1);
+    reorderedFolders.splice(result.destination.index, 0, removed);
 
-  const handleDrop = (targetFolderId) => {
-    const draggedIndex = folders.findIndex(
-      (folder) => folder.id === draggedFolder
-    );
-    const targetIndex = folders.findIndex(
-      (folder) => folder.id === targetFolderId
-    );
-
-    if (draggedIndex !== -1 && targetIndex !== -1) {
-      const updatedFolders = [...folders];
-      const [draggedItem] = updatedFolders.splice(draggedIndex, 1);
-      updatedFolders.splice(targetIndex, 0, draggedItem);
-      setFolders(updatedFolders);
-    }
-
-    setDraggedFolder(null);
+    setFolders(reorderedFolders);
   };
 
   return (
-    <div className="favorites-container">
-      <h2 className="favorites-title">Favorites</h2>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search Favorites"
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        {filteredRecipes.length > 0 && (
-          <ul className="search-dropdown">
-            {filteredRecipes.map((recipe) => (
-              <li key={recipe.id} className="search-item">
-                {recipe.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div className="create-folder-container">
-        <input
-          type="text"
-          placeholder="New Folder Name"
-          value={newFolderName}
-          onChange={(e) => setNewFolderName(e.target.value)}
-        />
-        <button onClick={createFolder}>Create Folder</button>
-      </div>
-      <ul className="favorites-list">
-        {folders.map((folder) => (
-          <li
-            key={folder.id}
-            className="favorites-folder"
-            draggable
-            onDragStart={() => handleDragStart(folder.id)}
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(folder.id)}
-          >
-            <div className="folder-header">
-              <div
-                className="folder-left"
-                onClick={() => toggleFolder(folder.id)}
-              >
-                <MoreVertTwoToneIcon
-                  className="more-icon"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleMenuClick(e, folder.id);
-                  }}
-                />
-                <ArrowForwardIosRounded
-                  className={`folder-icon ${
-                    expandedFolders.includes(folder.id) ? "expanded" : ""
-                  }`}
-                />
-                <span className="folder-name">{folder.name}</span>
-              </div>
-            </div>
-            <div
-              className={`folder-recipes ${
-                expandedFolders.includes(folder.id) ? "expanded" : ""
-              }`}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="favorites-container">
+        <h2 className="favorites-title">Favorites</h2>
+        <div
+          className="search-container"
+          onMouseDown={(e) => {
+            if (!e.target.closest(".search-dropdown")) {
+              setIsSearchFocused(false);
+            }
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search Favorites"
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
+          />
+          {filteredRecipes.length > 0 && isSearchFocused && (
+            <ul
+              className="search-dropdown"
+              onMouseDown={(e) => e.preventDefault()}
             >
-              <ul className="favorites-recipe-list">
-                {folder.recipes.map((recipe) => (
-                  <li key={recipe.id} className="favorites-recipe-item">
-                    {recipe.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={renameFolder}>Rename</MenuItem>
-        <MenuItem onClick={deleteFolder}>Delete</MenuItem>
-      </Menu>
-    </div>
+              {filteredRecipes.map((recipe) => (
+                <li
+                  key={recipe.id}
+                  className="search-item"
+                  onClick={() => retrieveRecipe(recipe.id)}
+                >
+                  {recipe.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="create-folder-container">
+          <input
+            type="text"
+            placeholder="New Folder Name"
+            value={newFolderName}
+            onChange={(e) => setNewFolderName(e.target.value)}
+          />
+          <button onClick={createFolder}>Create Folder</button>
+        </div>
+        <Droppable droppableId="droppable-folders">
+          {(provided) => (
+            <ul
+              className="favorites-list"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {folders.map((folder, index) => (
+                <Draggable
+                  key={folder.id}
+                  draggableId={folder.id}
+                  index={index}
+                >
+                  {(provided) => (
+                    <li
+                      className="favorites-folder"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      onClick={() => toggleFolder(folder.id)}
+                    >
+                      <div className="folder-header">
+                        <MoreVertTwoToneIcon
+                          className="more-icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMenuClick(e, folder.id);
+                          }}
+                        />
+                        <ArrowForwardIosRounded
+                          className={`folder-icon ${
+                            expandedFolders.includes(folder.id)
+                              ? "expanded"
+                              : ""
+                          }`}
+                        />
+                        <span className="folder-name">{folder.name}</span>
+                      </div>
+                      <div
+                        className={`folder-recipes ${
+                          expandedFolders.includes(folder.id) ? "expanded" : ""
+                        }`}
+                      >
+                        <ul className="favorites-recipe-list">
+                          {folder.recipes.map((recipe) => (
+                            <li
+                              key={recipe.id}
+                              className="favorites-recipe-item"
+                            >
+                              <button
+                                className="favorites-recipe-button"
+                                onClick={() => retrieveRecipe(recipe.id)}
+                              >
+                                {recipe.name}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={renameFolder}>Rename</MenuItem>
+          <MenuItem onClick={deleteFolder}>Delete</MenuItem>
+        </Menu>
+      </div>
+    </DragDropContext>
   );
 };
 
