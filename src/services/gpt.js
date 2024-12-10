@@ -7,6 +7,7 @@ const RecipeGenerator = () => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [title, setTitle] = useState("Generating Recipe..."); // Dynamically update title
 
   const location = useLocation();
   const { ingredients, budget, complexity, time, customInstructions } =
@@ -41,6 +42,12 @@ const RecipeGenerator = () => {
     try {
       const result = await generateText({ prompt: generatePrompt() });
       const formattedResponse = parseRecipe(result.data.response);
+      console.log(result.data.response);
+
+      // Extract and set the title
+      const firstLine = result.data.response.split("\n")[0].trim();
+      setTitle(firstLine || "Generated Recipe");
+
       setResponse(formattedResponse);
     } catch (err) {
       setError("There was an issue generating the recipe. Please try again.");
@@ -60,12 +67,12 @@ const RecipeGenerator = () => {
 
     const ingredients = lines
       .slice(ingredientsIndex + 1, instructionsIndex)
-      .map((line) => `${line.trim()}`) // Add dashes for each ingredient
+      .map((line) => `${line.trim()}`)
       .join("<br />");
 
     const instructions = lines
       .slice(instructionsIndex + 1)
-      .map((line, index) => `${line.trim()}`) // Properly numbered steps for instructions
+      .map((line, index) => `${line.trim()}`)
       .join("<br />");
 
     return { ingredients, instructions };
@@ -74,7 +81,7 @@ const RecipeGenerator = () => {
   return (
     <div className="recipe-generator-container">
       <div className="recipe-content">
-        <h2>{loading ? "Generating Recipe..." : "French Omelette"}</h2>
+        <h2>{title}</h2>
         {response ? (
           <div className="recipe-card">
             <h3>Ingredients</h3>
