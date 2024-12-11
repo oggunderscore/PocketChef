@@ -83,19 +83,19 @@ function Home() {
         <Question
           defaultValue={budget}
           label="What's your budget?"
-          tooltipText="Set your budget range from affordable to premium."
+          tooltipText="Budget determines the price range of the recipe and how much the generation can expect the user to have"
           onChange={setBudget}
         />
         <Question
           defaultValue={complexity}
           label="Cooking Complexity?"
-          tooltipText="Choose how simple or advanced you'd like the cooking process to be."
+          tooltipText="Complexity determines the difficulty of the recipe and how much prior cooking experience and knowledge the user has"
           onChange={setComplexity}
         />
         <Question
           defaultValue={time}
           label="Time Spent Cooking?"
-          tooltipText="Specify how much time you want to spend cooking, from quick meals to slow-cooked delights."
+          tooltipText="Time determines the length of the recipe and how much time the user has to spend cooking"
           onChange={setTime}
         />
 
