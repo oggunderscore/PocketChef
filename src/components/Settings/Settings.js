@@ -1,11 +1,10 @@
-// src/components/Settings/Settings.js
-
 import React, { useEffect, useState } from "react";
 import "./Settings.css";
 import Modal from "./Modal";
 import UpdatePassword from "./UpdatePassword";
+import ContactUsButton from "../shared/ContactUsButton/ContactUsButton"; // Import your Contact Us button component
 import { auth, db } from "../../configuration";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const Settings = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -15,9 +14,8 @@ const Settings = () => {
   const [currentField, setCurrentField] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  //const [password, setPassword] = useState("********");
 
-  //load current username and email from firestore
+  // Load current username and email from Firestore
   useEffect(() => {
     const loadUserData = async () => {
       try {
@@ -34,9 +32,6 @@ const Settings = () => {
     };
 
     loadUserData();
-      
-      
-
   }, []);
 
   const openPasswordModal = () => {
@@ -46,8 +41,6 @@ const Settings = () => {
   const closePasswordModal = () => {
     setIsPasswordModalOpen(false);
   };
-
-  
 
   const openModal = (field) => {
     setModalTitle(`Update ${field}`);
@@ -59,9 +52,7 @@ const Settings = () => {
   const handleSave = (newValue) => {
     if (currentField === "username") setUsername(newValue);
     if (currentField === "email") setEmail(newValue);
-    //if (currentField === "password") setPassword(newValue);
 
-    // Logic to update the username, email, or password with newValue
     console.log(`${modalTitle} updated to:`, newValue);
   };
 
@@ -72,9 +63,11 @@ const Settings = () => {
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
-          <li onClick={() => openModal("Username")}>Update Username <strong>{username}</strong>
+          <li onClick={() => openModal("Username")}>
+            Update Username <strong>{username}</strong>
           </li>
-          <li onClick={() => openModal("Email")}>Update Email <strong>{email}</strong>
+          <li onClick={() => openModal("Email")}>
+            Update Email <strong>{email}</strong>
           </li>
           <li onClick={() => openModal("Password")}>Update Password</li>
           <li>Delete Data</li>
@@ -93,8 +86,9 @@ const Settings = () => {
       <div className="settings-section">
         <h3>Resources</h3>
         <ul className="settings-list">
-          <li>Contact Us</li>
-          <li>Send Feedback</li>
+          <li>
+            <ContactUsButton /> {/* Render the Contact Us / Feedback Button */}
+          </li>
         </ul>
       </div>
       {isModalOpen && (

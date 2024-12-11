@@ -10,7 +10,7 @@ const ContactUsButton = () => {
 
   return (
     <div className="contact-us">
-      <button onClick={handleOpenForm}>Contact Us / Provide Feedback</button>
+      <button onClick={handleOpenForm}>Contact Us</button>
       {showForm && <FeedbackForm closeForm={handleCloseForm} />}
     </div>
   );
