@@ -1,0 +1,83 @@
+/* Container for the entire component */
+.recipe-generator-container {
+  background-color: #fcf4e7;
+  min-height: 95vh;
+  font-family: Arial, sans-serif;
+  color: #212121;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.menu-icon,
+.favorite-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Recipe Content */
+.recipe-content {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #000000;
+}
+
+/* Recipe Card */
+.recipe-card {
+  background-color: #fff7e6;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #4a4a4a;
+  line-height: 1.5;
+}
+
+/* Generate Button */
+.generate-btn {
+  background-color: #ff9f43;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.generate-btn:hover {
+  background-color: #ff7843;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

@@ -6,14 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
-  const [ingredients, setIngredients] = useState([
-    "Cheese",
-    "Bread",
-    "Milk",
-    "Eggs",
-    "Tomato",
-    "Butter",
-  ]);
+  const [ingredients, setIngredients] = useState([]);
 
   const [isAddingIngredient, setIsAddingIngredient] = useState(false);
   const [newIngredient, setNewIngredient] = useState("");

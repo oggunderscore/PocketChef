@@ -47,6 +47,8 @@ const Settings = () => {
     setPlaceholder(`Enter new ${field.toLowerCase()}`);
     setCurrentField(field.toLowerCase());
     setIsModalOpen(true);
+    setCurrentField(field.toLowerCase());
+    setIsModalOpen(true);
   };
 
   const handleSave = (newValue) => {
