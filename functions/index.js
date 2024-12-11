@@ -4,7 +4,7 @@ const OpenAI = require("openai");
 
 // Initialize OpenAI SDK using the new structure
 const openai = new OpenAI({
-  apiKey: "",
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
 });
 
 exports.generateText = functions.https.onCall(async (request) => {
@@ -33,10 +33,20 @@ Key Features:
 Personalized Recipe Recommendations:
 Ingredient-Based Suggestions: Users can input available ingredients, and PocketChef will generate recipes that utilize these items.
 
-Budget Consideration Complexity and Time: Recommendations will align with the user’s time and the amount of ingredients. If the user has less time and fewer ingredients, PocketChef will recommend a recipe that’s easy to make and takes less time. On the contrary, if the user inputs more time and more ingredients, the complexity and budget of the recipe will increase.
+Budget Consideration Complexity and Time: Recommendations will align with the user's time and the amount of ingredients. If the user has less time and fewer ingredients, PocketChef will recommend a recipe that's easy to make and takes less time. On the contrary, if the user inputs more time and more ingredients, the complexity and budget of the recipe will increase.
 
-Dietary Preferences and Restrictions: Tailored recipes based on the user’s dietary needs, which the user will specify. These include but are not limited to vegetarian, vegan, gluten-free, and religious restrictions like halal and kosher. If the user doesn’t specify dietary preferences and restrictions, skip this option.
+Dietary Preferences and Restrictions: Tailored recipes based on the user's dietary needs, which the user will specify. These include but are not limited to vegetarian, vegan, gluten-free, and religious restrictions like halal and kosher. If the user doesn't specify dietary preferences and restrictions, skip this option.
 
+Response Formatting:
+Output your response in JSON format where recipe_id is a combination of the recipe name in combination with timestamp generated
+
+{
+"recipe_id": "steak_and_eggs_12-11-24_13_44_03",
+"recipe_name": "Steak and Eggs",
+"ingredients": ["1lb Steak Ribeye", "3 Eggs"],
+"instructions": [{"section": "Preparing the Steak", "steps": ["1. Season the steak generously with salt and pepper", "2. Trim off excess fat"]}],
+"tips": ["Cook with caution", "Use a cast iron pan"]
+}
 
 Additional Instructions to follow:
 Please provide a recipe that is easy to follow and includes cooking instructions.
