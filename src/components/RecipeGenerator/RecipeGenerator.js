@@ -40,7 +40,6 @@ const RecipeGenerator = () => {
 
     try {
       const result = await generateText({ prompt: generatePrompt() });
-      console.log("Response: \n" + result);
       const formattedResponse = parseRecipe(result.data.response);
       setResponse(formattedResponse);
     } catch (err) {
@@ -52,6 +51,7 @@ const RecipeGenerator = () => {
 
   const parseRecipe = (text) => {
     const lines = text.split("\n").filter((line) => line.trim() !== "");
+    console.log(lines);
     const ingredientsIndex = lines.findIndex((line) =>
       line.toLowerCase().includes("ingredients")
     );
