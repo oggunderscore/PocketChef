@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import UpdatePassword from "./UpdatePassword";
 import { auth, db } from "../../configuration";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import ContactUsButton from "../shared/ContactUsButton/ContactUsButton.js";
 
 const Settings = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -16,7 +17,6 @@ const Settings = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
-  //const [password, setPassword] = useState("********");
 
   //load current username and email from firestore
   useEffect(() => {
@@ -40,23 +40,6 @@ const Settings = () => {
   }, []);
 
 
-        //const userDoc = doc(db, "users", auth.currentUser.uid);
-        //const userData = await getDoc(userDoc);
-
-    //    if (userData.exists()) {
-    //      setUsername(userData.data().username || "DefaultUsername");
-    //      setEmail(userData.data().email || "user@example.com");
-    //    }
-    //  } catch (error) {
-    //    console.error("Error loading user data:", error);
-    //  }
-    //};
-
-    //loadUserData();
-      
-      
-
-  //}, []);
 
   const openPasswordModal = () => {
     setIsPasswordModalOpen(true);
@@ -100,10 +83,6 @@ const Settings = () => {
         console.log("Email is already set to ${user.email}.");
       }
     }
-    //if (currentField === "username") setUsername(newValue);
-    //if (currentField === "email") setEmail(newValue);
-    //if (currentField === "password") setPassword(newValue);
-
     // Logic to update the username, email, or password with newValue
     console.log(`${modalTitle} updated to:`, newValue);
   };
@@ -136,8 +115,9 @@ const Settings = () => {
       <div className="settings-section">
         <h3>Resources</h3>
         <ul className="settings-list">
-          <li>Contact Us</li>
-          <li>Send Feedback</li>
+          <li>
+            <ContactUsButton /> {/* Render the Contact Us / Feedback Button */}
+          </li>
         </ul>
       </div>
       {isModalOpen && (
