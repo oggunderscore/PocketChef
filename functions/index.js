@@ -4,8 +4,7 @@ const OpenAI = require("openai");
 
 // Initialize OpenAI SDK using the new structure
 const openai = new OpenAI({
-  apiKey:
-    "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",
+  apiKey: "",
 });
 
 exports.generateText = functions.https.onCall(async (request) => {
