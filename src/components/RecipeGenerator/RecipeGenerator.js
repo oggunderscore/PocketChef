@@ -40,9 +40,17 @@ const RecipeGenerator = () => {
 
     try {
       const result = await generateText({ prompt: generatePrompt() });
-      const jsonResponse = JSON.parse(result.data.response);
-      setResponse(jsonResponse);
+      let jsonResponse = result.data.response;
+
+      // Remove backticks and parse JSON
+      if (jsonResponse.startsWith("```json")) {
+        jsonResponse = jsonResponse.replace(/```json|```/g, "").trim();
+      }
+
+      const parsedResponse = JSON.parse(jsonResponse); // Parse the cleaned JSON string
+      setResponse(parsedResponse);
     } catch (err) {
+      console.error("Error parsing or fetching JSON:", err);
       setError("There was an issue generating the recipe. Please try again.");
     } finally {
       setLoading(false);
@@ -52,13 +60,16 @@ const RecipeGenerator = () => {
   return (
     <div className="recipe-generator-container">
       <div className="recipe-content">
-        <h2>{loading ? "Generating Recipe..." : "Recipe"}</h2>
+        <h2>
+          {loading
+            ? "Generating Recipe..."
+            : response
+            ? response.recipe_name
+            : "Recipe"}
+        </h2>
+
         {response ? (
           <div className="recipe-card">
-            <h3>{response.recipe_name}</h3>
-            <p className="recipe-id">
-              <em>{response.recipe_id}</em>
-            </p>
             <h4>Ingredients</h4>
             <ul>
               {response.ingredients.map((ingredient, index) => (
@@ -69,13 +80,14 @@ const RecipeGenerator = () => {
             {response.instructions.map((section, sectionIndex) => (
               <div key={sectionIndex}>
                 <h5>{section.section}</h5>
-                <ol>
+                <ul>
                   {section.steps.map((step, stepIndex) => (
-                    <li key={stepIndex}>{step}</li>
+                    <li key={stepIndex}>{step.replace(/^\d+\.\s/, "")}</li> // Remove step numbers
                   ))}
-                </ol>
+                </ul>
               </div>
             ))}
+
             {response.tips && (
               <>
                 <h4>Tips</h4>
@@ -86,6 +98,9 @@ const RecipeGenerator = () => {
                 </ul>
               </>
             )}
+            <p className="recipe-id">
+              <em>{response.recipe_id}</em>
+            </p>
           </div>
         ) : (
           !loading && (

@@ -26,6 +26,12 @@
   cursor: pointer;
 }
 
+.recipe-id {
+  font-size: 0.9rem;
+  color: gray;
+  margin-top: -10px;
+}
+
 h1 {
   font-size: 1.8rem;
   font-weight: bold;
@@ -70,6 +76,24 @@ h2 {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 20px;
+}
+
+/* Reduce margin below headers */
+h4,
+h5 {
+  margin-bottom: 5px; /* Adjust as needed */
+}
+
+/* Reduce margin for unordered lists */
+ul {
+  margin-top: 0; /* Remove extra space above lists */
+  margin-bottom: 10px; /* Minimal spacing below lists */
+  padding-left: 20px; /* Keep default indentation */
+}
+
+/* Reduce vertical spacing for list items */
+li {
+  margin-bottom: 3px; /* Adjust for tighter spacing between items */
 }
 
 .generate-btn:hover {
