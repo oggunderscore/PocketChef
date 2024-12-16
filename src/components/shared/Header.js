@@ -123,12 +123,6 @@ const SideMenu = () => {
                 primaryTypographyProps={linkTextStyle}
               />
             </ListItem>
-            <ListItem button component={Link} to="/preferences">
-              <ListItemText
-                primary="Preferences"
-                primaryTypographyProps={linkTextStyle}
-              />
-            </ListItem>
             <ListItem button component={Link} to="/favorites">
               <ListItemText
                 primary="Favorites"
