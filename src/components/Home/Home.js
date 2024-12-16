@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AddIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Question from "./Question"; // Assuming Question.js is the component for each slider
@@ -7,37 +7,33 @@ import "./Home.css";
 
 function Home() {
   const [ingredients, setIngredients] = useState([]);
-
   const [isAddingIngredient, setIsAddingIngredient] = useState(false);
   const [newIngredient, setNewIngredient] = useState("");
-  const [customInstructions, setCustomInstructions] = useState(""); // State for special requests
+  const [customInstructions, setCustomInstructions] = useState("");
 
-  // State for each slider value
+  // State for sliders
   const [budget, setBudget] = useState(3);
   const [complexity, setComplexity] = useState(3);
   const [time, setTime] = useState(3);
 
+  const inputRef = useRef(null); // Reference for the ingredient input field
   const navigate = useNavigate();
 
   const handleAddIngredient = () => {
     if (newIngredient.trim() !== "") {
       setIngredients((prev) => [...prev, newIngredient]);
-      setNewIngredient("");
+      setNewIngredient(""); // Clear input field
+      setIsAddingIngredient(true); // Keep input active
+      inputRef.current.focus(); // Auto-focus on input field
     }
   };
 
   const handleIngredientKeyPress = (e) => {
     if (e.key === "Enter") {
       handleAddIngredient();
-      setIsAddingIngredient(false);
     } else if (e.key === "Escape") {
       setIsAddingIngredient(false);
     }
-  };
-
-  const handleIngredientChange = (e) => {
-    setNewIngredient(e.target.value);
-    e.target.style.width = `${e.target.value.length + 1}ch`; // Adjust width based on content
   };
 
   const handleRemoveIngredient = (ingredient) => {
@@ -80,6 +76,7 @@ function Home() {
       <h3 className="pref">Let's start cooking.</h3>
 
       <div className="content-container">
+        {/* Sliders */}
         <Question
           defaultValue={budget}
           label="What's your budget?"
@@ -99,6 +96,7 @@ function Home() {
           onChange={setTime}
         />
 
+        {/* Ingredients Section */}
         <div className="ingredient-container">
           <p className="ingredient-text">Ingredients</p>
           <div className="ingredients-list">
@@ -114,12 +112,14 @@ function Home() {
               </span>
             ))}
 
+            {/* Input Field */}
             {isAddingIngredient ? (
               <input
+                ref={inputRef} // Focus control
                 type="text"
                 className="add-input"
                 value={newIngredient}
-                onChange={handleIngredientChange}
+                onChange={(e) => setNewIngredient(e.target.value)}
                 onKeyDown={handleIngredientKeyPress}
                 onBlur={() => setIsAddingIngredient(false)}
                 autoFocus
@@ -127,18 +127,23 @@ function Home() {
             ) : (
               <div
                 className="add-item"
-                onClick={() => setIsAddingIngredient(true)}
+                onClick={() => {
+                  setIsAddingIngredient(true);
+                  setTimeout(() => inputRef.current?.focus(), 0);
+                }}
               >
                 Click to Add <AddIcon fontSize="small" />
               </div>
             )}
           </div>
+
+          {/* Clear Ingredients */}
           <button className="clear-button" onClick={handleClearIngredients}>
             Clear All
           </button>
         </div>
 
-        {/* Special Requests Text Box */}
+        {/* Special Requests Section */}
         <div className="special-requests-container">
           <label className="special-requests-label" htmlFor="special-requests">
             Special requests

@@ -24,28 +24,29 @@ exports.generateText = functions.https.onCall(async (request) => {
       );
     }
 
-    const instructions = `Overview:
+    const instructions = `
+You are a AI-powered culinary assistant designed to provide personalized recipe recommendations based on users' ingredients, dietary preferences, budget constraints, and desired complexity. PocketChef aims to make cooking accessible, enjoyable, and educational for users of all skill levels.
+Time, Complexity, Budget are factors on a scale from 1-5.
+1 = Low
+3 = Medium
+5 = High
 
-PocketChef is an AI-powered culinary assistant designed to provide personalized recipe recommendations based on users' ingredients, dietary preferences, budget constraints, and desired complexity. PocketChef aims to make cooking accessible, enjoyable, and educational for users of all skill levels. Leveraging advanced neural network algorithms, intuitive interfaces, and a comprehensive understanding of user needs, PocketChef transforms cooking from a daunting task into an empowering journey of exploration and skill development.
+Response Formatting:
+Output your response in JSON format where recipe_id is a combination of the recipe name in combination with timestamp generated.
+recipe_id, recipe_name, ingredients, instructions, and tips are required sections in the response. 
 
-Key Features:
-
-Personalized Recipe Recommendations:
-Ingredient-Based Suggestions: Users can input available ingredients, and PocketChef will generate recipes that utilize these items.
-
-Budget Consideration Complexity and Time: Recommendations will align with the user’s time and the amount of ingredients. If the user has less time and fewer ingredients, PocketChef will recommend a recipe that’s easy to make and takes less time. On the contrary, if the user inputs more time and more ingredients, the complexity and budget of the recipe will increase.
-
-Dietary Preferences and Restrictions: Tailored recipes based on the user’s dietary needs, which the user will specify. These include but are not limited to vegetarian, vegan, gluten-free, and religious restrictions like halal and kosher. If the user doesn’t specify dietary preferences and restrictions, skip this option.
-
+{
+"recipe_id": "steak_and_eggs_12-11-24_13_44_03",
+"recipe_name": "Steak and Eggs",
+"ingredients": ["1lb Steak Ribeye", "3 Eggs"],
+"instructions": [{"section": "Preparing the Steak", "steps": ["1. Season the steak generously with salt and pepper", "2. Trim off excess fat"]}],
+"tips": ["Cook with caution", "Use a cast iron pan"]
+}
 
 Additional Instructions to follow:
-Please provide a recipe that is easy to follow and includes cooking instructions.
-Do not include a section with equipment unless the user asks for equipment needed to perform the recipe.
-Include a Tips section but no final summary section at the end.
-Do not prepend #'s or *'s before sections such as Recipe or Ingredients.
-Format the output with a Recipe, Ingredients, Instructions, and Tips section. 
-The first line of your response should be the recipe name, nothing else.
-`;
+Please provide a recipe that is easy to follow.
+Do not include a section with equipment.
+Include a Tips section but no final summary section at the end.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o", // Use a valid model name

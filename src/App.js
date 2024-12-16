@@ -7,7 +7,7 @@ import History from "./components/History/History.js";
 import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
 
-import Gpt from "./services/gpt.js";
+import Gpt from "./components/RecipeGenerator/RecipeGenerator.js";
 import Auth from "./components/Authentication/Authentication.js";
 
 import SideMenu from "./components/shared/Header.js"; // Import the SideMenu component
@@ -21,9 +21,9 @@ function App() {
         <Routes>
           {/* Authentication page will show initially when the app loads */}
           <Route path="/" element={<Home />} />
-          
+
           {/* Other routes */}
-          
+
           <Route path="/loadingpage" element={<LoadingPage />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/history" element={<History />} />
