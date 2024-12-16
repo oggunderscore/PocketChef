@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useLocation } from "react-router-dom";
-import "./RecipeGenerator.css"; // CSS file for styling
+import "./RecipeGenerator.css";
 
 const RecipeGenerator = () => {
   const [response, setResponse] = useState(null);
@@ -27,7 +27,7 @@ const RecipeGenerator = () => {
       Cooking Time: ${time}/5
       Custom Instructions: ${customInstructions}
       Please provide a recipe that is easy to follow and includes cooking instructions.
-      Format the response with separate sections for "Ingredients" and "Instructions".
+      Format the response as JSON with fields: recipe_id, recipe_name, ingredients, instructions, and tips.
     `.trim();
   };
 
@@ -40,8 +40,8 @@ const RecipeGenerator = () => {
 
     try {
       const result = await generateText({ prompt: generatePrompt() });
-      const formattedResponse = parseRecipe(result.data.response);
-      setResponse(formattedResponse);
+      const jsonResponse = JSON.parse(result.data.response);
+      setResponse(jsonResponse);
     } catch (err) {
       setError("There was an issue generating the recipe. Please try again.");
     } finally {
@@ -49,39 +49,43 @@ const RecipeGenerator = () => {
     }
   };
 
-  const parseRecipe = (text) => {
-    const lines = text.split("\n").filter((line) => line.trim() !== "");
-    console.log(lines);
-    const ingredientsIndex = lines.findIndex((line) =>
-      line.toLowerCase().includes("ingredients")
-    );
-    const instructionsIndex = lines.findIndex((line) =>
-      line.toLowerCase().includes("instructions")
-    );
-
-    const ingredients = lines
-      .slice(ingredientsIndex + 1, instructionsIndex)
-      .map((line) => `${line.trim()}`) // Add dashes for each ingredient
-      .join("<br />");
-
-    const instructions = lines
-      .slice(instructionsIndex + 1)
-      .map((line, index) => `${line.trim()}`) // Properly numbered steps for instructions
-      .join("<br />");
-
-    return { ingredients, instructions };
-  };
-
   return (
     <div className="recipe-generator-container">
       <div className="recipe-content">
-        <h2>{loading ? "Generating Recipe..." : "French Omelette"}</h2>
+        <h2>{loading ? "Generating Recipe..." : "Recipe"}</h2>
         {response ? (
           <div className="recipe-card">
-            <h3>Ingredients</h3>
-            <p dangerouslySetInnerHTML={{ __html: response.ingredients }} />
-            <h3>Instructions</h3>
-            <p dangerouslySetInnerHTML={{ __html: response.instructions }} />
+            <h3>{response.recipe_name}</h3>
+            <p className="recipe-id">
+              <em>{response.recipe_id}</em>
+            </p>
+            <h4>Ingredients</h4>
+            <ul>
+              {response.ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+            <h4>Instructions</h4>
+            {response.instructions.map((section, sectionIndex) => (
+              <div key={sectionIndex}>
+                <h5>{section.section}</h5>
+                <ol>
+                  {section.steps.map((step, stepIndex) => (
+                    <li key={stepIndex}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+            {response.tips && (
+              <>
+                <h4>Tips</h4>
+                <ul>
+                  {response.tips.map((tip, index) => (
+                    <li key={index}>{tip}</li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         ) : (
           !loading && (
