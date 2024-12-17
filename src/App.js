@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoadingPage from "./components/shared/LoadingPage.js"; // Import the LoadingPage component
 import Favorites from "./components/Favorites/Favorites.js";
 import History from "./components/History/History.js";
-import Preferences from "./components/Preferences/Preferences.js";
 import Settings from "./components/Settings/Settings.js";
 
 import Gpt from "./components/RecipeGenerator/RecipeGenerator.js";
@@ -27,7 +26,6 @@ function App() {
           <Route path="/loadingpage" element={<LoadingPage />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/history" element={<History />} />
-          <Route path="/preferences" element={<Preferences />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/login" element={<Auth />} />
           <Route path="/gpt" element={<Gpt />} />
