@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import Tooltip from "@mui/material/Tooltip";
 
 const appBarStyle = {
   backgroundColor: "#02151D",
@@ -129,18 +130,50 @@ const SideMenu = () => {
                 primaryTypographyProps={linkTextStyle}
               />
             </ListItem>
-            <ListItem button component={Link} to="/favorites">
-              <ListItemText
-                primary="Favorites"
-                primaryTypographyProps={linkTextStyle}
-              />
-            </ListItem>
-            <ListItem button component={Link} to="/history">
-              <ListItemText
-                primary="History"
-                primaryTypographyProps={linkTextStyle}
-              />
-            </ListItem>
+            <Tooltip
+              title={user ? "" : "You must be logged in to access this"}
+              arrow
+              placement="right"
+            >
+            <div>
+              <ListItem
+                button={!!user}
+                component={user ? Link : "div"}
+                to={user ? "/favorites" : undefined}
+                style={{ pointerEvents: user ? "auto" : "none" }} 
+                >
+                  <ListItemText
+                    primary="Favorites"
+                    primaryTypographyProps={{
+                      ...linkTextStyle,
+                      color: user ? "white" : "gray",
+                    }}
+                  />
+                </ListItem>
+              </div>
+            </Tooltip>
+            <Tooltip
+              title={user ? "" : "You must be logged in to access this"}
+              arrow
+              placement="right"
+            >
+            <div>
+              <ListItem
+                button={!!user}
+                component={user ? Link : "div"}
+                to={user ? "/history" : undefined}
+                style={{ pointerEvents: user ? "auto" : "none" }} 
+                >
+                  <ListItemText
+                    primary="History"
+                    primaryTypographyProps={{
+                      ...linkTextStyle,
+                      color: user ? "white" : "gray",
+                    }}
+                  />
+                </ListItem>
+              </div>
+            </Tooltip>
             <ListItem button component={Link} to="/settings">
               <ListItemText
                 primary="Settings"
