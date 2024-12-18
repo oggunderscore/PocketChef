@@ -84,7 +84,7 @@
 
 .favorite-item {
   background-color: #fff;
-  border: 1px solid #ff9f43;
+  border: 1px solid #12263e;
   border-radius: 10px;
   margin: 10px 0;
   padding: 15px;
@@ -96,7 +96,7 @@
 }
 
 .favorite-item:hover {
-  background-color: #ffebcd;
+  background-color: #c8e1ff;
   transform: scale(1.02);
 }
 
