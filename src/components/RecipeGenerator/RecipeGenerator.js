@@ -59,12 +59,23 @@ const RecipeGenerator = () => {
             Budget: ${budget}/5
             Complexity: ${complexity}/5
             Cooking Time: ${time}/5
-            Custom Instructions: ${customInstructions}
+            Special requests: ${customInstructions}
             Please provide a recipe that is easy to follow and includes cooking instructions.
-            Format the response as JSON with fields: recipe_id, recipe_name, ingredients, instructions, and tips.
+            Response Formatting:
+            Output your response in JSON format where recipe_id is a combination of the recipe name in combination with timestamp generated.
+            recipe_id, recipe_name, ingredients, instructions, and tips are required sections in the response. 
+
+            {
+            "recipe_id": "steak_and_eggs_12-11-24_13_44_03",
+            "recipe_name": "Steak and Eggs",
+            "ingredients": ["1lb Steak Ribeye", "3 Eggs"],
+            "instructions": [{"section": "Preparing the Steak", "steps": ["1. Season the steak generously with salt and pepper", "2. Trim off excess fat"]}],
+            "tips": ["Cook with caution", "Use a cast iron pan"]
+            }
           `.trim();
 
           const result = await generateText({ prompt });
+          console.log("Response: " + result.data.response);
           let jsonResponse = result.data.response;
 
           if (jsonResponse.startsWith("```json")) {

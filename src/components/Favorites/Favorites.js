@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import retrieveRecipe from "../Hooks/RetrieveRecipe";
+import DeleteIcon from "@mui/icons-material/Delete"; // Importing DeleteIcon
 import "./Favorites.css";
 
 const Favorites = () => {
@@ -11,6 +13,7 @@ const Favorites = () => {
 
   const auth = getAuth();
   const db = getFirestore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -49,6 +52,37 @@ const Favorites = () => {
     fetchFavorites();
   }, [auth, db]);
 
+  const removeFavorite = async (recipeId) => {
+    const user = auth.currentUser;
+    if (!user) {
+      setError("User not logged in.");
+      return;
+    }
+
+    try {
+      // Update the user's favorite_recipes array in Firestore
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const { favorite_recipes } = userSnap.data();
+        const updatedFavorites = favorite_recipes.filter(
+          (id) => id !== recipeId
+        );
+
+        await updateDoc(userRef, { favorite_recipes: updatedFavorites });
+
+        // Update the state to reflect the changes
+        setFavoriteRecipes((prevFavorites) =>
+          prevFavorites.filter((recipe) => recipe.recipe.recipe_id !== recipeId)
+        );
+      }
+    } catch (err) {
+      console.error("Error removing favorite recipe:", err);
+      setError("Failed to remove favorite recipe.");
+    }
+  };
+
   return (
     <div className="favorites-container">
       <h2 className="favorites-title">Favorites</h2>
@@ -59,12 +93,20 @@ const Favorites = () => {
       ) : favoriteRecipes.length > 0 ? (
         <ul className="favorites-list">
           {favoriteRecipes.map((recipe) => (
-            <li
-              key={recipe.recipe_id}
-              className="favorite-item"
-              onClick={() => console.log("Recipe Details:", recipe)}
-            >
-              {recipe.recipe.recipe_name}
+            <li key={recipe.recipe_id} className="favorite-item">
+              <span
+                className="recipe-name"
+                onClick={() => navigate(`/recipe/${recipe.recipe.recipe_id}`)}
+              >
+                {recipe.recipe.recipe_name}
+              </span>
+              <button
+                className="remove-favorite-btn"
+                onClick={() => removeFavorite(recipe.recipe.recipe_id)}
+              >
+                <DeleteIcon />{" "}
+                {/* Replacing trash icon with Material-UI DeleteIcon */}
+              </button>
             </li>
           ))}
         </ul>
