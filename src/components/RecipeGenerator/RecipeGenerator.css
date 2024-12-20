@@ -1,41 +1,85 @@
-/* Container for the entire component */
+/* General Styles */
 .recipe-generator-container {
   background-color: #fcf4e7;
   min-height: 95vh;
   font-family: Arial, sans-serif;
-  color: #212121;
+  color: #000;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Header */
-.header {
+h1,
+h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0px;
+  color: #000;
+}
+
+h4,
+h5 {
+  margin-bottom: 5px;
+}
+
+ul {
+  margin: 0 0 10px 20px;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 3px;
+}
+
+/* Recipe Header */
+.recipe-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
+.recipe-title {
+  flex: 1;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.recipe-id {
+  font-size: 0.9rem;
+  color: gray;
+  margin-top: 10px;
+}
+
+/* Icons */
 .menu-icon,
 .favorite-icon {
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-.recipe-id {
-  font-size: 0.9rem;
-  color: gray;
-  margin-top: -10px;
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
-h1 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-align: center;
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn.active svg {
+  color: #12263e; /* Highlight color */
 }
 
 /* Recipe Content */
@@ -48,14 +92,6 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #000000;
-}
-
-/* Recipe Card */
 .recipe-card {
   background-color: #fff7e6;
   border-radius: 10px;
@@ -66,9 +102,9 @@ h2 {
   line-height: 1.5;
 }
 
-/* Generate Button */
+/* Buttons */
 .generate-btn {
-  background-color: #ff9f43;
+  background-color: #12263e;
   color: white;
   border: none;
   border-radius: 20px;
@@ -78,30 +114,12 @@ h2 {
   margin-top: 20px;
 }
 
-/* Reduce margin below headers */
-h4,
-h5 {
-  margin-bottom: 5px; /* Adjust as needed */
-}
-
-/* Reduce margin for unordered lists */
-ul {
-  margin-top: 0; /* Remove extra space above lists */
-  margin-bottom: 10px; /* Minimal spacing below lists */
-  padding-left: 20px; /* Keep default indentation */
-}
-
-/* Reduce vertical spacing for list items */
-li {
-  margin-bottom: 3px; /* Adjust for tighter spacing between items */
-}
-
 .generate-btn:hover {
-  background-color: #ff7843;
+  background-color: #12263e;
 }
 
 /* Error Message */
 .error-message {
-  color: red;
+  color: rgb(141, 0, 0);
   margin-top: 10px;
 }
