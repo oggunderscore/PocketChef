@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import retrieveRecipe from "../Hooks/RetrieveRecipe";
 import DeleteIcon from "@mui/icons-material/Delete"; // Importing DeleteIcon
 import "./Favorites.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Favorites = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]); // List of fetched recipes
@@ -85,6 +87,7 @@ const Favorites = () => {
 
   return (
     <div className="favorites-container">
+      <ToastContainer />
       <h2 className="favorites-title">Favorites</h2>
       {loading ? (
         <p>Loading your favorites...</p>

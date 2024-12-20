@@ -11,6 +11,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const appBarStyle = {
   backgroundColor: "#02151D",
@@ -70,11 +72,11 @@ const SideMenu = () => {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        console.log("User signed out");
-        navigate("/login");
+        toast.info("You have been signed out.", { position: "top-right" });
+        // navigate("/login");
       })
       .catch((error) => {
-        console.error("Error signing out:", error);
+        toast.error(`Error: ${error.message}`, { position: "top-right" });
       });
   };
 
@@ -84,6 +86,7 @@ const SideMenu = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div style={appBarStyle}>
         <IconButton
           edge="start"

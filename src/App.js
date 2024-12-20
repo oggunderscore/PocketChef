@@ -9,10 +9,12 @@ import Gpt from "./components/RecipeGenerator/RecipeGenerator.js";
 import Auth from "./components/Authentication/Authentication.js";
 import RecipePage from "./components/Recipe/Recipe.js";
 import SideMenu from "./components/shared/Header.js";
+import { toast, ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div>
+      <ToastContainer />
       <Router>
         <SideMenu />
         <Routes>

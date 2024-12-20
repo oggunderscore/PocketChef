@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./History.css";
 import SearchIcon from "@mui/icons-material/Search";
 import retrieveRecipe from "../Hooks/RetrieveRecipe";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const History = () => {
   const [historyItems, setHistoryItems] = useState([]);
@@ -73,6 +75,7 @@ const History = () => {
 
   return (
     <div className="history-container">
+      <ToastContainer />
       <h2 className="history-title">History</h2>
       <div className="search-container">
         <input
