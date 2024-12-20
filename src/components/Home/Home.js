@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Question from "./Question"; // Assuming Question.js is the component for each slider
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./Home.css";
 
 function Home() {
@@ -72,6 +73,7 @@ function Home() {
 
   return (
     <div className="app-container">
+      <ToastContainer />
       <h2 className="welcome">Welcome!</h2>
       <h3 className="pref">Let's start cooking.</h3>
 

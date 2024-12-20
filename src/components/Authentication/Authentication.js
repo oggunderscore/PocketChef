@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Toastify styles
 import app from "../../configuration"; // Firebase configuration
-import { getDatabase, ref, onValue } from "firebase/database";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import "./Authentication.css"; // Add new styles for minimalistic design
+import "./Authentication.css";
 
-// Firebase Authentication instance
 const auth = getAuth(app);
 
 const validatePasswordRequirements = (password) => {
@@ -24,42 +23,13 @@ const validatePasswordRequirements = (password) => {
   };
   return requirements;
 };
-// Function to handle user sign-up
-const handleSignUp = (email, password, navigate) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("User signed up:", userCredential.user);
-      navigate("/");
-    })
-    .catch((error) => console.error("Error signing up:", error));
-};
-
-// Function to handle user sign-in
-const handleSignIn = (email, password, navigate) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("User signed in:", userCredential.user);
-      navigate("/");
-    })
-    .catch((error) => console.error("Error signing in:", error));
-};
-
-// Function to handle user sign-out
-const handleSignOut = (navigate) => {
-  signOut(auth)
-    .then(() => {
-      console.log("User signed out");
-      
-    })
-    .catch((error) => console.error("Error signing out:", error));
-};
 
 const Auth = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [data, setData] = useState([]);
-
   const [passwordRequirements, setPasswordRequirements] = useState({
     minLength: false,
     hasUppercase: false,
@@ -69,67 +39,58 @@ const Auth = () => {
   });
   const navigate = useNavigate();
 
-  // Check authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      if (!currentUser) {
-        navigate("/login");
+      if (currentUser) {
+        toast.success(`Welcome back, ${currentUser.email}!`, {
+          position: "top-right",
+        });
       }
     });
 
     return () => unsubscribe();
   }, []);
 
-  // Fetch data from Firebase Realtime Database
   useEffect(() => {
-    if (user) {
-      const database = getDatabase(app);
-      const collectionRef = ref(database, "your_collection");
-
-      const fetchData = () => {
-        onValue(collectionRef, (snapshot) => {
-          const dataItem = snapshot.val();
-          if (dataItem) {
-            const displayItem = Object.values(dataItem);
-            setData(displayItem);
-          }
-        });
-      };
-
-      fetchData();
-    }
-  }, [user]);
+    const updatedRequirements = validatePasswordRequirements(signUpPassword);
+    setPasswordRequirements(updatedRequirements);
+  }, [signUpPassword]);
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    handleSignUp(email, password, navigate);
+    createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+      .then(() => {
+        toast.success("Account created successfully!", {
+          position: "top-right",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(`Error: ${error.message}`, { position: "top-right" });
+      });
   };
 
   const handleSignInSubmit = (e) => {
     e.preventDefault();
-    handleSignIn(email, password, navigate);
+    signInWithEmailAndPassword(auth, signInEmail, signInPassword)
+      .then((userCredential) => {
+        toast.success(`Welcome, ${userCredential.user.email}!`, {
+          position: "top-right",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(`Error: ${error.message}`, { position: "top-right" });
+      });
   };
-
-  useEffect(() => {
-    const updatedRequirements = validatePasswordRequirements(password);
-    setPasswordRequirements(updatedRequirements);
-  }, [password]);
 
   return (
     <div className="auth-container">
+      <ToastContainer />
       {user ? (
         <div className="auth-content">
           <h1>Welcome, {user.email}</h1>
-          <button className="auth-button" onClick={() => handleSignOut(navigate)}>
-            Sign Out
-          </button>
-          <h2>Data from database:</h2>
-          <ul>
-            {data.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
         </div>
       ) : (
         <div className="auth-content">
@@ -139,32 +100,58 @@ const Auth = () => {
               <input
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={signUpEmail}
+                onChange={(e) => setSignUpEmail(e.target.value)}
                 className="auth-input"
               />
               <input
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={signUpPassword}
+                onChange={(e) => setSignUpPassword(e.target.value)}
                 className="auth-input"
               />
               <div className="password-requirements">
                 <ul>
-                  <li style={{ color: passwordRequirements.minLength ? "green" : "gray" }}>
+                  <li
+                    style={{
+                      color: passwordRequirements.minLength ? "green" : "gray",
+                    }}
+                  >
                     Minimum 8 characters
                   </li>
-                  <li style={{ color: passwordRequirements.hasUppercase ? "green" : "gray" }}>
+                  <li
+                    style={{
+                      color: passwordRequirements.hasUppercase
+                        ? "green"
+                        : "gray",
+                    }}
+                  >
                     At least one uppercase letter
                   </li>
-                  <li style={{ color: passwordRequirements.hasLowercase ? "green" : "gray" }}>
+                  <li
+                    style={{
+                      color: passwordRequirements.hasLowercase
+                        ? "green"
+                        : "gray",
+                    }}
+                  >
                     At least one lowercase letter
                   </li>
-                  <li style={{ color: passwordRequirements.hasNumber ? "green" : "gray" }}>
+                  <li
+                    style={{
+                      color: passwordRequirements.hasNumber ? "green" : "gray",
+                    }}
+                  >
                     At least one number
                   </li>
-                  <li style={{ color: passwordRequirements.hasSpecialChar ? "green" : "gray" }}>
+                  <li
+                    style={{
+                      color: passwordRequirements.hasSpecialChar
+                        ? "green"
+                        : "gray",
+                    }}
+                  >
                     At least one special character
                   </li>
                 </ul>
@@ -181,15 +168,15 @@ const Auth = () => {
               <input
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={signInEmail}
+                onChange={(e) => setSignInEmail(e.target.value)}
                 className="auth-input"
               />
               <input
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={signInPassword}
+                onChange={(e) => setSignInPassword(e.target.value)}
                 className="auth-input"
               />
               <button type="submit" className="auth-button">
