@@ -7,6 +7,7 @@ import UpdatePassword from "./UpdatePassword";
 import { auth, db } from "../../configuration";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import ContactUsButton from "../shared/ContactUsButton/ContactUsButton.js";
+import { toast, ToastContainer } from "react-toastify";
 
 const Settings = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -16,7 +17,6 @@ const Settings = () => {
   const [currentField, setCurrentField] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-
 
   //load current username and email from firestore
   useEffect(() => {
@@ -39,8 +39,6 @@ const Settings = () => {
     loadUserData();
   }, []);
 
-
-
   const openPasswordModal = () => {
     setIsPasswordModalOpen(true);
   };
@@ -48,8 +46,6 @@ const Settings = () => {
   const closePasswordModal = () => {
     setIsPasswordModalOpen(false);
   };
-
-  
 
   const openModal = (field) => {
     setModalTitle(`Update ${field}`);
@@ -70,7 +66,7 @@ const Settings = () => {
       await updateDoc(userDoc, { username: newValue });
       console.log("Username updated in ${newValue}.");
     }
-    if(currentField === "email") {
+    if (currentField === "email") {
       if (newValue !== user.email) {
         try {
           await user.updateEmail(newValue);
@@ -87,16 +83,23 @@ const Settings = () => {
     console.log(`${modalTitle} updated to:`, newValue);
   };
 
+  const handleButtonClick = (feature) => {
+    toast.info(`${feature} - Feature Coming Soon!`, { position: "top-right" });
+  };
+
   return (
     <div className="settings-container">
+      <ToastContainer />
       <h2>Settings</h2>
       {isPasswordModalOpen && <UpdatePassword onClose={closePasswordModal} />}
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
-          <li onClick={() => openModal("Username")}>Update Username <strong>{username}</strong>
+          <li onClick={() => openModal("Username")}>
+            Update Username <strong>{username}</strong>
           </li>
-          <li onClick={() => openModal("Email")}>Update Email <strong>{email}</strong>
+          <li onClick={() => openModal("Email")}>
+            Update Email <strong>{email}</strong>
           </li>
           <li onClick={() => openModal("Password")}>Update Password</li>
           <li>Delete Data</li>
@@ -106,9 +109,13 @@ const Settings = () => {
       <div className="settings-section">
         <h3>App Settings</h3>
         <ul className="settings-list">
-          <li>Dark Mode</li>
-          <li>App Language</li>
-          <li>Notifications</li>
+          <li onClick={() => handleButtonClick("Dark Mode")}>Dark Mode</li>
+          <li onClick={() => handleButtonClick("App Language")}>
+            App Language
+          </li>
+          <li onClick={() => handleButtonClick("Notifications")}>
+            Notifications
+          </li>
         </ul>
       </div>
 
