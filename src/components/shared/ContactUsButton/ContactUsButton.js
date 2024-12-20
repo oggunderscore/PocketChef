@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FeedbackForm from "../FeedBackButton/FeedbackButton.js";
+import FeedbackForm from "../FeedBackButton/FeedbackForm.js";
 import "./ContactUsButton.css";
 const ContactUsButton = () => {
   const [showForm, setShowForm] = useState(false);
@@ -11,11 +11,11 @@ const ContactUsButton = () => {
     <div className="contact-us">
       <button onClick={handleOpenForm}>Contact Us</button>
       {showForm && (
-      <div className="contact-us-content">
-        <div className="modal-content">
-          <FeedbackForm closeForm={handleCloseForm}/>
+        <div className="contact-us-content">
+          <div className="modal-content">
+            <FeedbackForm closeForm={handleCloseForm} />
+          </div>
         </div>
-      </div>
       )}
     </div>
   );

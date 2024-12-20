@@ -127,23 +127,23 @@ const SideMenu = () => {
                 primaryTypographyProps={linkTextStyle}
               />
             </ListItem>
-            <ListItem button component={Link} to="/preferences">
+            {/* <ListItem button component={Link} to="/preferences">
               <ListItemText
                 primary="Preferences"
                 primaryTypographyProps={linkTextStyle}
               />
-            </ListItem>
+            </ListItem> */}
             <Tooltip
               title={user ? "" : "You must be logged in to access this"}
               arrow
               placement="right"
             >
-            <div>
-              <ListItem
-                button={!!user}
-                component={user ? Link : "div"}
-                to={user ? "/favorites" : undefined}
-                style={{ pointerEvents: user ? "auto" : "none" }} 
+              <div>
+                <ListItem
+                  button={!!user}
+                  component={user ? Link : "div"}
+                  to={user ? "/favorites" : undefined}
+                  style={{ pointerEvents: user ? "auto" : "none" }}
                 >
                   <ListItemText
                     primary="Favorites"
@@ -160,12 +160,12 @@ const SideMenu = () => {
               arrow
               placement="right"
             >
-            <div>
-              <ListItem
-                button={!!user}
-                component={user ? Link : "div"}
-                to={user ? "/history" : undefined}
-                style={{ pointerEvents: user ? "auto" : "none" }} 
+              <div>
+                <ListItem
+                  button={!!user}
+                  component={user ? Link : "div"}
+                  to={user ? "/history" : undefined}
+                  style={{ pointerEvents: user ? "auto" : "none" }}
                 >
                   <ListItemText
                     primary="History"
