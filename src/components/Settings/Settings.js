@@ -1,10 +1,12 @@
+// src/components/Settings/Settings.js
+
 import React, { useEffect, useState } from "react";
 import "./Settings.css";
 import Modal from "./Modal";
 import UpdatePassword from "./UpdatePassword";
-import ContactUsButton from "../shared/ContactUsButton/ContactUsButton"; // Import your Contact Us button component
 import { auth, db } from "../../configuration";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import ContactUsButton from "../shared/ContactUsButton/ContactUsButton.js";
 
 const Settings = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -15,16 +17,19 @@ const Settings = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
-  // Load current username and email from Firestore
+
+  //load current username and email from firestore
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const userDoc = doc(db, "users", auth.currentUser.uid);
-        const userData = await getDoc(userDoc);
-
-        if (userData.exists()) {
-          setUsername(userData.data().username || "DefaultUsername");
-          setEmail(userData.data().email || "user@example.com");
+        const user = auth.currentUser;
+        if (user) {
+          setEmail(user.email);
+          const userDoc = doc(db, "users", user.uid);
+          const userData = await getDoc(userDoc);
+          if (userData.exists()) {
+            setUsername(userData.data().username || "DefaultUsername");
+          }
         }
       } catch (error) {
         console.error("Error loading user data:", error);
@@ -34,6 +39,8 @@ const Settings = () => {
     loadUserData();
   }, []);
 
+
+
   const openPasswordModal = () => {
     setIsPasswordModalOpen(true);
   };
@@ -42,19 +49,41 @@ const Settings = () => {
     setIsPasswordModalOpen(false);
   };
 
+  
+
   const openModal = (field) => {
     setModalTitle(`Update ${field}`);
     setPlaceholder(`Enter new ${field.toLowerCase()}`);
     setCurrentField(field.toLowerCase());
     setIsModalOpen(true);
-    setCurrentField(field.toLowerCase());
-    setIsModalOpen(true);
   };
 
-  const handleSave = (newValue) => {
-    if (currentField === "username") setUsername(newValue);
-    if (currentField === "email") setEmail(newValue);
-
+  const handleSave = async (newValue) => {
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User is not authenticated.");
+      return;
+    }
+    if (currentField === "username") {
+      setUsername(newValue);
+      const userDoc = doc(db, "users", user.uid);
+      await updateDoc(userDoc, { username: newValue });
+      console.log("Username updated in ${newValue}.");
+    }
+    if(currentField === "email") {
+      if (newValue !== user.email) {
+        try {
+          await user.updateEmail(newValue);
+          setEmail(newValue);
+          console.log("Email updated to ${newValue}.");
+        } catch (error) {
+          console.error("Error updating email:", error);
+        }
+      } else {
+        console.log("Email is already set to ${user.email}.");
+      }
+    }
+    // Logic to update the username, email, or password with newValue
     console.log(`${modalTitle} updated to:`, newValue);
   };
 
@@ -65,11 +94,9 @@ const Settings = () => {
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
-          <li onClick={() => openModal("Username")}>
-            Update Username <strong>{username}</strong>
+          <li onClick={() => openModal("Username")}>Update Username <strong>{username}</strong>
           </li>
-          <li onClick={() => openModal("Email")}>
-            Update Email <strong>{email}</strong>
+          <li onClick={() => openModal("Email")}>Update Email <strong>{email}</strong>
           </li>
           <li onClick={() => openModal("Password")}>Update Password</li>
           <li>Delete Data</li>
