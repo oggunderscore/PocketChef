@@ -94,9 +94,9 @@ const Settings = () => {
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
-          <li onClick={() => openModal("Username")}>Update Username: <strong>{username}</strong>
+          <li onClick={() => openModal("Username")}>Update Username <strong>{username}</strong>
           </li>
-          <li onClick={() => openModal("Email")}>Update Email: <strong>{email}</strong>
+          <li onClick={() => openModal("Email")}>Update Email <strong>{email}</strong>
           </li>
           <li onClick={() => openModal("Password")}>Update Password</li>
           <li>Delete Data</li>
