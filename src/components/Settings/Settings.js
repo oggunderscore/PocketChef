@@ -18,7 +18,6 @@ const Settings = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
-  //load current username and email from firestore
   useEffect(() => {
     const loadUserData = async () => {
       try {
@@ -38,14 +37,6 @@ const Settings = () => {
 
     loadUserData();
   }, []);
-
-  const openPasswordModal = () => {
-    setIsPasswordModalOpen(true);
-  };
-
-  const closePasswordModal = () => {
-    setIsPasswordModalOpen(false);
-  };
 
   const openModal = (field) => {
     setModalTitle(`Update ${field}`);
@@ -79,7 +70,6 @@ const Settings = () => {
         console.log("Email is already set to ${user.email}.");
       }
     }
-    // Logic to update the username, email, or password with newValue
     console.log(`${modalTitle} updated to:`, newValue);
   };
 
@@ -91,7 +81,6 @@ const Settings = () => {
     <div className="settings-container">
       <ToastContainer />
       <h2>Settings</h2>
-      {isPasswordModalOpen && <UpdatePassword onClose={closePasswordModal} />}
       <div className="settings-section">
         <h3>User Settings</h3>
         <ul className="settings-list">
@@ -102,7 +91,7 @@ const Settings = () => {
             Update Email <strong>{email}</strong>
           </li>
           <li onClick={() => openModal("Password")}>Update Password</li>
-          <li>Delete Data</li>
+          <li onClick={() => handleButtonClick("Delete Data")}>Delete Data</li>
         </ul>
       </div>
 
@@ -123,7 +112,7 @@ const Settings = () => {
         <h3>Resources</h3>
         <ul className="settings-list">
           <li>
-            <ContactUsButton /> {/* Render the Contact Us / Feedback Button */}
+            <ContactUsButton />
           </li>
         </ul>
       </div>

@@ -6,7 +6,7 @@
   height: 150vh;
 }
 
-h2 {
+.settings-container h2 {
   font-size: 36px;
   margin-bottom: 15px;
 }
