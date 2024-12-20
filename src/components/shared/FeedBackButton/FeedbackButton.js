@@ -40,7 +40,7 @@ const FeedbackForm = ({ closeForm }) => {
         <form onSubmit={handleSubmit}>
           <h2>Contact Us / Provide Feedback</h2>
           <label>
-            Name:
+            Name
             <input
               type="text"
               value={name}
@@ -49,7 +49,7 @@ const FeedbackForm = ({ closeForm }) => {
             />
           </label>
           <label>
-            Email:
+            Email
             <input
               type="email"
               value={email}
@@ -58,7 +58,7 @@ const FeedbackForm = ({ closeForm }) => {
             />
           </label>
           <label>
-            Message:
+            Message
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
